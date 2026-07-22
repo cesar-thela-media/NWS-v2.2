@@ -1,0 +1,94 @@
+"use client";
+
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/ui/accordion";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import { cn } from "@/lib/utils";
+import { ArrowRight, MinusIcon, PlusIcon } from "lucide-react";
+import { nwsFaqs } from "@/data/nws-blocks";
+
+export default function Faq() {
+  return (
+    <section className="bg-muted">
+      <div className="max-w-7xl mx-auto px-4 lg:px-8 xl:px-20 py-10 lg:py-24 flex flex-col gap-8">
+        <div className="flex flex-col gap-4 items-center text-center lg:px-16">
+          <Badge
+            variant="outline"
+            className="h-auto py-1 px-3 border-0 bg-background outline outline-border w-fit flex items-center gap-1.5"
+          >
+            <span className="size-2 rounded-full bg-primary shrink-0" />
+            FAQs
+          </Badge>
+          <h2 className="text-3xl lg:text-5xl font-bold tracking-tight text-foreground">
+            Common questions
+          </h2>
+          <p className="text-base lg:text-lg text-muted-foreground max-w-lg">
+            Straight answers about services, areas, timelines, and how we work.
+          </p>
+        </div>
+
+        <div className="bg-background border border-border rounded-3xl p-5 lg:p-8">
+          <Accordion defaultValue={["item-0"]} className="w-full flex flex-col">
+            {nwsFaqs.map((faq, index) => (
+              <AccordionItem
+                key={`item-${index}`}
+                value={`item-${index}`}
+                className={cn(
+                  "py-6 lg:py-8 flex flex-col gap-4 group/item transition-colors border-b border-border last:border-b-0 first:pt-0 last:pb-0",
+                )}
+              >
+                <AccordionTrigger className="p-0 hover:no-underline **:data-[slot=accordion-trigger-icon]:hidden cursor-pointer gap-6 items-start">
+                  <span className="shrink-0 mt-0.5">
+                    <PlusIcon className="w-6 h-6 group-aria-expanded/accordion-trigger:hidden" />
+                    <MinusIcon className="w-6 h-6 hidden group-aria-expanded/accordion-trigger:inline" />
+                  </span>
+                  <span className="flex-1 text-xl font-semibold text-foreground text-left">
+                    {faq.question}
+                  </span>
+                </AccordionTrigger>
+                <AccordionContent className="p-0 pl-12 text-muted-foreground text-lg">
+                  {faq.answer}
+                </AccordionContent>
+              </AccordionItem>
+            ))}
+          </Accordion>
+        </div>
+
+        <div className="bg-background border border-border rounded-3xl flex flex-col lg:flex-row lg:justify-between overflow-hidden">
+          <div className="flex flex-col gap-8 p-5 lg:p-8 lg:max-w-xl">
+            <div className="flex flex-col gap-3">
+              <h3 className="text-xl lg:text-2xl font-medium text-foreground">
+                Still have questions? Our team is ready to help.
+              </h3>
+              <p className="text-sm lg:text-base text-muted-foreground">
+                Call for a free consult or send a message—we&apos;ll confirm
+                your address and next steps.
+              </p>
+            </div>
+            <Button
+              variant="outline"
+              className="w-fit h-12 px-6 rounded-[4px] gap-2 cursor-pointer"
+              render={<a href="tel:2812992309" />}
+            >
+              Call (281) 299-2309
+              <ArrowRight className="size-4" />
+            </Button>
+          </div>
+          <div className="relative h-56 lg:h-auto lg:w-96 overflow-hidden rounded-b-3xl lg:rounded-b-none lg:rounded-r-3xl">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src="/images/hero-home-remodeled-richmond-tx.webp"
+              alt="Remodeled home in Richmond, TX"
+              className="absolute inset-0 w-full h-full object-cover"
+            />
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}

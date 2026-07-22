@@ -1,0 +1,686 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+@import "shadcn/tailwind.css";
+/*
+  ---break---
+*/
+@custom-variant dark (&:is(.dark *));
+
+/*
+  Design system aligned to glyph.software colors + base-nova body type:
+  warm off-white canvas, near-black text, orangered primary (#FF4500),
+  Geist for body/UI (shadcn base-nova default), Manrope bold for headings.
+*/
+:root {
+  /* —— Glyph brand tokens (used by legacy pages + .btn / .section-*) —— */
+  --color-bg: #fafaf9;
+  --color-bg-alt: #f5f4f0;
+  --color-text: #0c0a09;
+  --color-heading: #050505;
+  --color-primary: #ff4500;
+  --color-primary-hover: #e03e00;
+  --color-primary-soft: #ffc7b3;
+  --color-white: #ffffff;
+  /* Text muted (legacy alias) — surface muted is --muted / bg-muted */
+  --color-muted: #6b6560;
+  --color-border: #d4d0c8;
+  --color-footer: #1c1917;
+  --color-footer-muted: #a8a29e;
+  --color-topbar: #f5f4f0;
+  --color-dark: #050505;
+
+  /* Font stacks — layout sets --font-geist / --font-manrope */
+  --nws-font-sans: var(--font-geist), "Geist", ui-sans-serif, system-ui,
+    sans-serif;
+  --nws-font-heading: var(--font-manrope), "Manrope", ui-sans-serif, system-ui,
+    sans-serif;
+  --font-sans: var(--nws-font-sans);
+  --font-heading: var(--nws-font-heading);
+
+  --container: 1140px;
+  --radius-btn: 4px;
+  --radius-card: 12px;
+  --shadow-card: 0 8px 30px rgba(12, 10, 9, 0.06);
+  --shadow-soft: 0 4px 20px rgba(12, 10, 9, 0.05);
+
+  /* —— shadcn / Tailwind semantic tokens = same Glyph palette —— */
+  --background: #fafaf9;
+  --foreground: #0c0a09;
+  --card: #ffffff;
+  --card-foreground: #0c0a09;
+  --popover: #ffffff;
+  --popover-foreground: #0c0a09;
+  --primary: #ff4500;
+  --primary-foreground: #ffffff;
+  --secondary: #f5f4f0;
+  --secondary-foreground: #050505;
+  --muted: #f5f4f0;
+  --muted-foreground: #6b6560;
+  --accent: #f5f4f0;
+  --accent-foreground: #050505;
+  --destructive: #dc2626;
+  --border: #d4d0c8;
+  --input: #d4d0c8;
+  --ring: #ff4500;
+  --chart-1: #ff4500;
+  --chart-2: #6b6560;
+  --chart-3: #0c0a09;
+  --chart-4: #d4d0c8;
+  --chart-5: #f5f4f0;
+  /* Glyph-like controls: sharp 4px default */
+  --radius: 0.25rem;
+  --sidebar: #fafaf9;
+  --sidebar-foreground: #0c0a09;
+  --sidebar-primary: #ff4500;
+  --sidebar-primary-foreground: #ffffff;
+  --sidebar-accent: #f5f4f0;
+  --sidebar-accent-foreground: #050505;
+  --sidebar-border: #d4d0c8;
+  --sidebar-ring: #ff4500;
+}
+
+@theme inline {
+  --font-sans: var(--nws-font-sans);
+  --font-heading: var(--nws-font-heading);
+
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-chart-1: var(--chart-1);
+  --color-chart-2: var(--chart-2);
+  --color-chart-3: var(--chart-3);
+  --color-chart-4: var(--chart-4);
+  --color-chart-5: var(--chart-5);
+  --color-sidebar: var(--sidebar);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-ring: var(--sidebar-ring);
+
+  /* Extra aliases for page-level CSS vars */
+  --color-heading: #050505;
+  --color-bg-alt: #f5f4f0;
+  --color-bg: #fafaf9;
+
+  --radius-sm: 0.125rem;
+  --radius-md: 0.25rem;
+  --radius-lg: 0.5rem;
+  --radius-xl: 0.75rem;
+  --radius-2xl: 1rem;
+  --radius-3xl: 1.25rem;
+  --radius-4xl: 1.5rem;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+  /* Avoid horizontal scroll when full-bleed sections use cover backgrounds */
+  overflow-x: clip;
+}
+
+body {
+  background: var(--color-bg);
+  color: var(--color-text);
+  font-family: var(--nws-font-sans);
+  font-size: 16px;
+  line-height: 1.65;
+  letter-spacing: -0.01em;
+  margin: 0;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: clip;
+  width: 100%;
+  max-width: 100vw;
+}
+
+/* Full-bleed cinematic sections always span the viewport width */
+main {
+  width: 100%;
+  max-width: 100%;
+  overflow-x: clip;
+}
+
+/*
+  Headings: Manrope bold + tight tracking (Glyph hero feel).
+  Body/UI stay on Geist via --nws-font-sans.
+  Default colors live in @layer base so Tailwind text-white utilities win.
+*/
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+.section-title,
+.font-display {
+  font-family: var(--nws-font-heading) !important;
+  font-weight: 700;
+  line-height: 1.15;
+  letter-spacing: -0.025em;
+  margin: 0 0 0.75em;
+}
+
+h1 {
+  font-weight: 700;
+}
+
+h2,
+h3 {
+  font-weight: 700;
+}
+
+p {
+  margin: 0 0 1em;
+}
+
+@layer base {
+  :where(h1, h2, h3, h4, h5, h6, .section-title, .font-display) {
+    color: var(--color-heading);
+  }
+
+  :where(p) {
+    color: var(--muted-foreground);
+  }
+  * {
+    @apply border-border outline-ring/50;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+  html {
+    @apply font-sans;
+  }
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+.container {
+  width: 100%;
+  max-width: var(--container);
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  background: var(--color-primary);
+  color: #fff !important;
+  font-family: var(--nws-font-sans); /* Geist body/UI */
+  font-weight: 600;
+  font-size: 15px;
+  letter-spacing: -0.01em;
+  padding: 12px 28px;
+  border-radius: var(--radius-btn);
+  border: none;
+  cursor: pointer;
+  transition: background 0.2s ease, transform 0.15s ease;
+  white-space: nowrap;
+}
+
+.btn:hover {
+  background: var(--color-primary-hover);
+}
+
+.btn-outline {
+  background: transparent;
+  color: var(--color-heading) !important;
+  border: 1px solid var(--color-border);
+}
+
+.btn-outline:hover {
+  background: var(--color-bg-alt);
+  border-color: var(--color-heading);
+  color: var(--color-heading) !important;
+}
+
+.btn-white {
+  background: #fff;
+  color: var(--color-heading) !important;
+  border: 1px solid var(--color-border);
+}
+
+.btn-white:hover {
+  background: var(--color-bg-alt);
+}
+
+.section-label {
+  color: var(--color-primary);
+  font-family: var(--font-sans);
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  margin-bottom: 8px;
+}
+
+.section-title {
+  font-family: var(--nws-font-heading) !important;
+  font-size: clamp(28px, 4vw, 42px);
+  font-weight: 700;
+  letter-spacing: -0.025em;
+  margin-bottom: 16px;
+}
+
+.section-title-lg {
+  font-size: clamp(32px, 5vw, 52px);
+}
+
+.text-center {
+  text-align: center;
+}
+
+/* Flip card */
+.flip-card {
+  perspective: 1000px;
+  height: 320px;
+}
+
+.flip-card-inner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  transition: transform 0.55s ease;
+  transform-style: preserve-3d;
+}
+
+.flip-card:hover .flip-card-inner,
+.flip-card:focus-within .flip-card-inner {
+  transform: rotateY(180deg);
+}
+
+.flip-card-front,
+.flip-card-back {
+  position: absolute;
+  inset: 0;
+  backface-visibility: hidden;
+  border-radius: var(--radius-card);
+  background: var(--card);
+  border: 1px solid var(--color-border);
+  box-shadow: var(--shadow-card);
+  padding: 28px 24px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.flip-card-back {
+  transform: rotateY(180deg);
+  background: var(--card);
+  justify-content: center;
+}
+
+.flip-card-icon {
+  width: 72px;
+  height: 72px;
+  margin-bottom: 16px;
+  object-fit: contain;
+}
+
+.flip-card h3 {
+  font-family: var(--nws-font-heading);
+  font-size: 20px;
+  font-weight: 700;
+  margin-bottom: 10px;
+  color: var(--color-heading);
+}
+
+.flip-card p {
+  font-size: 14px;
+  line-height: 1.55;
+  color: var(--muted-foreground);
+  margin: 0;
+}
+
+.flip-card ul {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 12px;
+  text-align: left;
+  width: 100%;
+}
+
+.flip-card li {
+  font-size: 13px;
+  color: var(--muted-foreground);
+  padding: 3px 0 3px 14px;
+  position: relative;
+}
+
+.flip-card li::before {
+  content: "\2022";
+  color: var(--color-primary);
+  position: absolute;
+  left: 0;
+}
+
+.flip-card .learn-more {
+  color: var(--color-primary);
+  font-family: var(--font-sans);
+  font-weight: 600;
+  font-size: 14px;
+  margin-top: auto;
+  padding-top: 12px;
+}
+
+/* Form */
+.form-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+.form-field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.form-field.full {
+  grid-column: 1 / -1;
+}
+
+.form-field label {
+  font-size: 13px;
+  font-weight: 600;
+  font-family: var(--font-sans);
+  color: var(--color-heading);
+}
+
+.form-field input,
+.form-field select,
+.form-field textarea {
+  width: 100%;
+  padding: 12px 14px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-btn);
+  background: var(--secondary);
+  font-family: var(--nws-font-sans);
+  font-size: 15px;
+  color: var(--foreground);
+  outline: none;
+  transition: border-color 0.2s, background 0.2s;
+}
+
+.form-field input:focus,
+.form-field select:focus,
+.form-field textarea:focus {
+  border-color: var(--primary);
+  background: var(--card);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--primary) 18%, transparent);
+}
+
+.form-field textarea {
+  min-height: 120px;
+  resize: vertical;
+}
+
+/* Accordion */
+.faq-item {
+  border-bottom: 1px solid var(--color-border);
+}
+
+.faq-item summary {
+  list-style: none;
+  cursor: pointer;
+  padding: 18px 8px;
+  font-family: var(--font-sans);
+  font-weight: 600;
+  color: var(--color-heading);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+}
+
+.faq-item summary::-webkit-details-marker {
+  display: none;
+}
+
+.faq-item summary::after {
+  content: "+";
+  color: var(--color-primary);
+  font-size: 22px;
+  font-weight: 400;
+  flex-shrink: 0;
+}
+
+.faq-item[open] summary::after {
+  content: "\2212";
+}
+
+.faq-item .faq-answer {
+  padding: 0 8px 18px;
+  color: var(--muted-foreground);
+  font-size: 15px;
+}
+
+.faq-item .faq-answer a {
+  color: var(--color-primary);
+  text-decoration: underline;
+}
+
+/* Breadcrumb */
+.breadcrumb {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: center;
+  font-family: var(--font-sans);
+  font-size: 14px;
+  color: rgba(255, 255, 255, 0.85);
+}
+
+.breadcrumb a:hover {
+  text-decoration: underline;
+}
+
+.breadcrumb .sep {
+  opacity: 0.6;
+}
+
+/* Gallery grid */
+.gallery-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+}
+
+.gallery-grid a {
+  display: block;
+  overflow: hidden;
+  border-radius: 8px;
+  aspect-ratio: 4/3;
+  border: 1px solid var(--color-border);
+}
+
+.gallery-grid img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.35s ease;
+}
+
+.gallery-grid a:hover img {
+  transform: scale(1.05);
+}
+
+/* Area chips */
+.area-chip {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px 20px;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-btn);
+  background: var(--card);
+  font-family: var(--nws-font-sans);
+  font-weight: 600;
+  color: var(--color-heading);
+  transition: border-color 0.2s, box-shadow 0.2s, color 0.2s, background 0.2s;
+  text-align: center;
+  min-height: 56px;
+}
+
+.area-chip:hover {
+  border-color: var(--color-primary);
+  color: var(--color-primary);
+  background: var(--color-bg-alt);
+  box-shadow: var(--shadow-soft);
+}
+
+/* Prose content */
+.prose-nws h2 {
+  font-family: var(--nws-font-heading);
+  font-size: 28px;
+  font-weight: 700;
+  letter-spacing: -0.025em;
+  margin-top: 1.5em;
+  color: var(--color-heading);
+}
+
+.prose-nws h3 {
+  font-family: var(--nws-font-heading);
+  font-size: 22px;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  margin-top: 1.4em;
+  color: var(--color-heading);
+}
+
+.prose-nws h4 {
+  font-family: var(--nws-font-heading);
+  font-size: 16px;
+  font-weight: 700;
+  margin-top: 1.2em;
+  color: var(--color-heading);
+}
+
+.prose-nws p {
+  color: var(--muted-foreground);
+}
+
+.prose-nws ul {
+  padding-left: 1.25em;
+  margin: 0 0 1em;
+  color: var(--muted-foreground);
+}
+
+.prose-nws li {
+  margin-bottom: 0.4em;
+}
+
+.prose-nws a {
+  color: var(--color-primary);
+}
+
+.prose-nws strong {
+  color: var(--color-heading);
+}
+
+/* Service page content image */
+.content-image {
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: var(--shadow-card);
+  border: 1px solid var(--color-border);
+  margin: 32px 0;
+}
+
+/* Review stars */
+.stars {
+  color: #f5b942;
+  letter-spacing: 2px;
+  font-size: 14px;
+}
+
+/* Mobile nav */
+.mobile-nav-open {
+  overflow: hidden;
+}
+
+@media (max-width: 1024px) {
+  .gallery-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 768px) {
+  .form-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .gallery-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .flip-card {
+    height: 300px;
+  }
+}
+
+/*
+  ---break---
+*/
+
+.dark {
+  /* Keep Glyph orange primary in dark; warm stone neutrals */
+  --background: #0c0a09;
+  --foreground: #fafaf9;
+  --card: #1c1917;
+  --card-foreground: #fafaf9;
+  --popover: #1c1917;
+  --popover-foreground: #fafaf9;
+  --primary: #ff4500;
+  --primary-foreground: #ffffff;
+  --secondary: #292524;
+  --secondary-foreground: #fafaf9;
+  --muted: #292524;
+  --muted-foreground: #a8a29e;
+  --accent: #292524;
+  --accent-foreground: #fafaf9;
+  --destructive: #f87171;
+  --border: #44403c;
+  --input: #44403c;
+  --ring: #ff4500;
+  --sidebar: #0c0a09;
+  --sidebar-foreground: #fafaf9;
+  --sidebar-primary: #ff4500;
+  --sidebar-primary-foreground: #ffffff;
+  --sidebar-accent: #292524;
+  --sidebar-accent-foreground: #fafaf9;
+  --sidebar-border: #44403c;
+  --sidebar-ring: #ff4500;
+}

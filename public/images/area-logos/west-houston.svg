@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 230 48" fill="none" role="img" aria-label="West Side of Houston, TX">
+  <text x="0" y="20" font-family="system-ui, sans-serif" font-size="10" font-weight="600" fill="#FF4500" letter-spacing="0.24em">WEST SIDE</text>
+  <text x="0" y="40" font-family="Georgia, serif" font-size="18" font-weight="700" fill="#F5F5F4" letter-spacing="0.1em">HOUSTON</text>
+  <circle cx="160" cy="28" r="12" stroke="#A8A29E" stroke-width="1" fill="none"/>
+  <path d="M160 18 L160 28 L168 32" stroke="#F5F5F4" stroke-width="1.5" stroke-linecap="round"/>
+</svg>
