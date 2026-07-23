@@ -1,5 +1,5 @@
 /**
- * Regression: em dashes gone, home polish tokens, page-family uniqueness.
+ * Regression: em/en dash prose separators, logo on-dark, home polish, page families.
  * Run: node --test scripts/home-polish.test.mjs
  */
 import test from "node:test";
@@ -25,6 +25,13 @@ function read(...parts) {
   return fs.readFileSync(path.join(root, ...parts), "utf8");
 }
 
+/** En dash is allowed only in pure numeric/currency ranges */
+function isNumericRangeContext(line, index) {
+  const before = line.slice(0, index);
+  const after = line.slice(index + 1);
+  return /[\d$]\s*$/.test(before) && /^\s*[\d$]/.test(after);
+}
+
 test("no U+2014 em dashes in src ts/tsx/css", () => {
   const files = walk(srcRoot);
   const offenders = [];
@@ -35,17 +42,54 @@ test("no U+2014 em dashes in src ts/tsx/css", () => {
   assert.deepEqual(offenders, [], `em dash found in: ${offenders.join(", ")}`);
 });
 
-test("logo has no mandatory white plate classes", () => {
+test("no U+2013 en-dash prose separators (numeric ranges allowed)", () => {
+  const files = walk(srcRoot);
+  const offenders = [];
+  for (const f of files) {
+    const t = fs.readFileSync(f, "utf8");
+    if (!t.includes("\u2013")) continue;
+    t.split("\n").forEach((line, i) => {
+      let idx = 0;
+      while ((idx = line.indexOf("\u2013", idx)) !== -1) {
+        if (!isNumericRangeContext(line, idx)) {
+          offenders.push(
+            `${path.relative(root, f)}:${i + 1}: ${line.trim().slice(0, 100)}`,
+          );
+        }
+        idx += 1;
+      }
+    });
+  }
+  assert.deepEqual(
+    offenders,
+    [],
+    `en-dash prose separators found:\n${offenders.join("\n")}`,
+  );
+});
+
+test("logo has on-dark light asset and no white plate", () => {
   const logo = read("src", "assets", "logo", "logo.tsx");
-  assert.doesNotMatch(logo, /bg-white/, "logo component must not force bg-white plate");
+  const site = read("src", "data", "site.ts");
+  assert.doesNotMatch(logo, /bg-white/, "logo must not force bg-white plate");
+  assert.match(logo, /logoOnDark|onDark/, "logo must branch for onDark");
   assert.match(
-    logo,
-    /logoTransparent|nws-logo-transparent/,
-    "logo should reference transparent asset path",
+    site,
+    /logoOnDark:\s*["']\/images\/nws-logo-on-dark\.png["']/,
+    "site.logoOnDark must point at light mark",
+  );
+  assert.ok(
+    fs.existsSync(path.join(root, "public", "images", "nws-logo-on-dark.png")),
+    "nws-logo-on-dark.png must exist",
   );
   assert.ok(
     fs.existsSync(path.join(root, "public", "images", "nws-logo-transparent.png")),
-    "transparent logo file must exist",
+    "transparent logo must exist",
+  );
+  // onDark uses logoOnDark src, not only drop-shadow on dark ink
+  assert.match(
+    logo,
+    /logoOnDark/,
+    "Logo component must select logoOnDark when onDark",
   );
 });
 
@@ -89,7 +133,14 @@ test("How we work allows full mobile image framing", () => {
 });
 
 test("CTA has upper-weighted dark overlay", () => {
-  const cta = read("src", "components", "shadcn-space", "blocks", "cta-08", "cta.tsx");
+  const cta = read(
+    "src",
+    "components",
+    "shadcn-space",
+    "blocks",
+    "cta-08",
+    "cta.tsx",
+  );
   assert.ok(
     cta.includes("from-black/80") || cta.includes("from-black/75"),
     "upper half should use strong from-black opacity",
@@ -104,15 +155,21 @@ test("non-home page families use distinct layout markers", () => {
   const serviceDetail = read("src", "app", "services", "[slug]", "page.tsx");
   const areas = read("src", "app", "areas-we-serve", "page.tsx");
 
-  assert.ok(about.includes("Serving Fort Bend") || about.includes("min-h-[42svh]"));
-  assert.ok(gallery.includes("columns-1") || gallery.includes("break-inside-avoid"));
-  assert.ok(location.includes("lg:sticky") || location.includes("Areas we serve"));
+  assert.ok(
+    about.includes("Serving Fort Bend") || about.includes("min-h-[42svh]"),
+  );
+  assert.ok(
+    gallery.includes("columns-1") || gallery.includes("break-inside-avoid"),
+  );
+  assert.ok(
+    location.includes("lg:sticky") || location.includes("Areas we serve"),
+  );
   assert.ok(services.includes("space-y-6") && services.includes("md:col-span-5"));
   assert.ok(serviceDetail.includes("lg:grid-cols-2"));
   assert.ok(areas.includes("mapFull") || areas.includes("Areas we serve"));
 
-  const oldTemplateCount = [about, gallery, location, services, areas].filter((s) =>
-    /<PageHero[\s\S]*title=/.test(s),
+  const oldTemplateCount = [about, gallery, location, services, areas].filter(
+    (s) => /<PageHero[\s\S]*title=/.test(s),
   ).length;
   assert.ok(
     oldTemplateCount <= 1,
