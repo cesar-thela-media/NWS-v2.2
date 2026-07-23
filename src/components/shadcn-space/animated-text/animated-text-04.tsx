@@ -4,31 +4,22 @@ import { useEffect, useState } from "react";
 import { cn } from "@/lib/utils";
 
 type RollerItem = {
-  /** Display text (e.g. "Richmond, TX") */
   text: string;
-  /** Tailwind text color class */
   color?: string;
 };
 
 export type AnimatedTextRollerProps = {
-  /** Static prefix shown before the roller (e.g. "Custom homes in") */
+  /** Static prefix (e.g. "Custom homes & remodels in") */
   prefix?: string;
-  /** List of items to rotate through */
   items: RollerItem[];
-  /** ms between rotations */
   intervalMs?: number;
-  /** Color applied to every item (overridden by item.color) */
   defaultColor?: string;
   className?: string;
-  /** Classes applied to each roller line (height + size) */
-  lineClassName?: string;
-  /** When true, the rotating word sits inline with the prefix on a single line */
-  inline?: boolean;
 };
 
 /**
- * Vertical text roller. Rotates through `items` every `intervalMs`.
- * Used in the hero to cycle through locations they serve ("Richmond, TX" → "Sugar Land, TX" → …).
+ * animated-text-04 — vertical roller showing ONE line at a time.
+ * Matches shadcn-space pattern: fixed-height clip + translateY by line height in rem.
  */
 const AnimatedTextRoller = ({
   prefix,
@@ -36,59 +27,67 @@ const AnimatedTextRoller = ({
   intervalMs = 2200,
   defaultColor = "text-primary",
   className,
-  lineClassName,
-  inline = false,
 }: AnimatedTextRollerProps) => {
   const [index, setIndex] = useState(0);
 
   useEffect(() => {
     if (items.length <= 1) return;
-    const interval = setInterval(() => {
+    const id = setInterval(() => {
       setIndex((prev) => (prev + 1) % items.length);
     }, intervalMs);
-    return () => clearInterval(interval);
+    return () => clearInterval(id);
   }, [items.length, intervalMs]);
 
-  const Wrapper = inline ? "span" : "div";
-
+  // Fixed line box (matches original demo: h-8 / 2rem steps scaled for hero)
+  // Use CSS variables so viewport + each line + translate stay in lockstep.
   return (
-    <Wrapper
+    <span
       className={cn(
-        inline
-          ? "inline-flex items-baseline gap-3 flex-wrap align-baseline"
-          : "flex items-center gap-3 flex-wrap",
+        "inline-flex flex-col sm:flex-row sm:items-center gap-x-3 gap-y-1 justify-center text-center sm:text-left",
         className,
       )}
     >
-      {prefix && (
-        <span className="text-white">{prefix}</span>
-      )}
+      {prefix ? (
+        <span className="text-white whitespace-nowrap">{prefix}</span>
+      ) : null}
+
+      {/* Viewport: exactly one line tall, clips the rest */}
       <span
-        className={cn(
-          "relative inline-flex overflow-hidden align-baseline",
-          lineClassName ?? "h-[1.15em] min-w-[8ch] text-center",
-        )}
+        className="relative block overflow-hidden text-left mx-auto sm:mx-0"
+        style={{
+          height: "1.15em",
+          minWidth: "12ch",
+        }}
+        aria-live="polite"
+        aria-atomic="true"
       >
         <span
           className="flex flex-col transition-transform duration-700 ease-in-out will-change-transform"
-          style={{ transform: `translateY(-${index * 100}%)` }}
+          style={{
+            // CRITICAL: use em relative to line height, NOT % of full stack
+            // Each child is 1.15em tall → step by index * 1.15em
+            transform: `translateY(calc(-${index} * 1.15em))`,
+          }}
         >
-          {items.map((g, i) => (
+          {items.map((item, i) => (
             <span
-              key={`${g.text}-${i}`}
+              key={`${item.text}-${i}`}
               className={cn(
-                "h-[1.15em] flex items-center justify-start whitespace-nowrap",
-                lineClassName,
-                g.color ?? defaultColor,
+                "flex items-center justify-center sm:justify-start whitespace-nowrap",
+                item.color ?? defaultColor,
               )}
+              style={{
+                height: "1.15em",
+                lineHeight: "1.15em",
+              }}
               aria-hidden={i !== index}
             >
-              {g.text}
+              {item.text}
             </span>
           ))}
         </span>
       </span>
-    </Wrapper>
+    </span>
   );
 };
 

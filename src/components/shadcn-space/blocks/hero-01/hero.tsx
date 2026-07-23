@@ -112,9 +112,6 @@ function HeroSection({
                 prefix={headline}
                 items={locations}
                 intervalMs={locationIntervalMs}
-                inline
-                className="text-[2rem] leading-[1.1] sm:text-5xl md:text-6xl lg:text-7xl font-bold tracking-tight"
-                lineClassName="text-[2rem] sm:text-5xl md:text-6xl lg:text-7xl font-bold"
               />
             ) : (
               <span>
