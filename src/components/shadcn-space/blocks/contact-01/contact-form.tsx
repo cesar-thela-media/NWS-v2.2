@@ -61,7 +61,7 @@ const ContactForm = () => {
       <Card className="ring-0 p-8 border-0 rounded-2xl bg-white shadow-lg">
         <CardContent className="p-0">
           <p className="text-lg font-medium text-foreground !m-0">
-            Thanks—we received your message and will get back to you shortly.
+            Thanks, we received your message and will get back to you shortly.
           </p>
         </CardContent>
       </Card>

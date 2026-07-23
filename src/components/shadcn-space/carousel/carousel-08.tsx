@@ -19,7 +19,7 @@ export interface CardItem {
   href: string;
 }
 
-/** Area cards for “Areas we serve” — real NWS photos + location pages */
+/** Area cards for “Areas we serve”, real NWS photos + location pages */
 const areaImages = [
   "/images/custom-homes-1.jpeg",
   "/images/hero-home-remodeled-richmond-tx.webp",

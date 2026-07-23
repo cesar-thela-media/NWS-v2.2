@@ -7,7 +7,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 
 /**
- * How NWS works — what we do + how we deliver.
+ * How NWS works, what we do + how we deliver.
  * Images: generated process photos in /public/images/process/
  */
 const projects = [
@@ -16,7 +16,7 @@ const projects = [
     step: "01",
     title: "Listen, scope, and plan with you",
     description:
-      "We start with your goals, budget range, and how you use the house. You get a clear scope, realistic timeline, and an estimate before we schedule—so there are no mystery phases later.",
+      "We start with your goals, budget range, and how you use the house. You get a clear scope, realistic timeline, and an estimate before we schedule, so there are no mystery phases later.",
     tags: ["Consult", "Scope", "Estimate"],
     image: "/images/process/process-plan.jpg",
     ctaLabel: "Book a free consult",
@@ -27,7 +27,7 @@ const projects = [
     step: "02",
     title: "Build and remodel with one accountable crew",
     description:
-      "Kitchens, baths, whole-home work, additions, or custom builds—same team from site prep through finish. We handle sequencing, materials, and updates so you’re never guessing who’s in charge.",
+      "Kitchens, baths, whole-home work, additions, or custom builds, same team from site prep through finish. We handle sequencing, materials, and updates so you’re never guessing who’s in charge.",
     tags: ["Build", "Remodel", "Additions"],
     image: "/images/process/process-build.jpg",
     ctaLabel: "See our services",
@@ -38,7 +38,7 @@ const projects = [
     step: "03",
     title: "Communicate clearly through every phase",
     description:
-      "Fort Bend homes come with real-world constraints—permits, weather, lead times. We keep you posted on schedule, selections, and decisions so the job stays on track and the walkthrough is clean.",
+      "Fort Bend homes come with real-world constraints, permits, weather, lead times. We keep you posted on schedule, selections, and decisions so the job stays on track and the walkthrough is clean.",
     tags: ["Updates", "Quality", "Walkthrough"],
     image: "/images/process/process-finish.jpg",
     ctaLabel: "View our work",
@@ -49,7 +49,7 @@ const projects = [
     step: "04",
     title: "Expand or start new when you’re ready",
     description:
-      "Need more space or a full custom home? We design additions that look original and new builds that fit how you live in Richmond and nearby communities—under one plan, one team.",
+      "Need more space or a full custom home? We design additions that look original and new builds that fit how you live in Richmond and nearby communities, under one plan, one team.",
     tags: ["Custom homes", "Room additions", "Local"],
     image: "/images/process/process-expand.jpg",
     ctaLabel: "Talk with our team",
@@ -76,25 +76,25 @@ const ProjectCard = ({
   return (
     <div
       ref={container}
-      className="sticky w-full top-24 md:top-28 h-[min(32rem,70svh)] md:h-[22rem] lg:h-[24rem]"
+      className="sticky w-full top-20 md:top-28 min-h-0 md:h-[22rem] lg:h-[24rem]"
       style={{
         zIndex: index + 1,
       }}
     >
       <motion.div
         style={{ scale }}
-        className="w-full flex flex-col md:flex-row items-stretch justify-between h-full bg-background border border-border rounded-2xl overflow-hidden gap-0 md:gap-0 origin-top shadow-sm"
+        className="w-full flex flex-col md:flex-row items-stretch justify-between h-auto md:h-full bg-background border border-border rounded-2xl overflow-hidden gap-0 md:gap-0 origin-top shadow-sm"
       >
         {/* Content Side */}
-        <div className="flex flex-col justify-between gap-6 p-6 sm:p-8 md:p-10 flex-1 min-w-0">
-          <div className="flex flex-col gap-4 max-w-xl">
+        <div className="flex flex-col justify-between gap-5 sm:gap-6 p-5 sm:p-8 md:p-10 flex-1 min-w-0 order-2 md:order-1">
+          <div className="flex flex-col gap-3 sm:gap-4 max-w-xl">
             <span className="text-sm font-semibold text-primary tracking-wide">
               Step {project.step}
             </span>
-            <p className="text-2xl md:text-3xl lg:text-4xl font-bold text-foreground tracking-tight !m-0">
+            <p className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold text-foreground tracking-tight !m-0">
               {project.title}
             </p>
-            <p className="text-muted-foreground text-base leading-relaxed !m-0">
+            <p className="text-muted-foreground text-sm sm:text-base leading-relaxed !m-0">
               {project.description}
             </p>
             <div className="flex flex-wrap gap-2">
@@ -120,15 +120,15 @@ const ProjectCard = ({
           </Button>
         </div>
 
-        {/* Image Side */}
-        <div className="relative overflow-hidden w-full md:w-[48%] lg:w-[46%] min-h-[12rem] md:min-h-0 shrink-0">
+        {/* Image Side, full photo on mobile (no tiny clipped band) */}
+        <div className="relative overflow-hidden w-full md:w-[48%] lg:w-[46%] aspect-[16/10] sm:aspect-[16/9] md:aspect-auto md:min-h-0 md:h-full shrink-0 order-1 md:order-2">
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
             src={project.image}
             alt={project.title}
             width={466}
             height={320}
-            className="absolute inset-0 object-cover w-full h-full transition-transform duration-700 hover:scale-105"
+            className="absolute inset-0 object-cover object-center w-full h-full transition-transform duration-700 hover:scale-105"
           />
         </div>
       </motion.div>
@@ -151,7 +151,7 @@ const Portfolio = () => {
             Built for Fort Bend homeowners
           </h2>
           <p className="text-base sm:text-lg text-muted-foreground max-w-2xl !m-0">
-            What we do and how we do it—from first consult to final walkthrough.
+            What we do and how we do it, from first consult to final walkthrough.
             One accountable team for remodels, additions, and custom homes in
             Richmond and nearby communities.
           </p>

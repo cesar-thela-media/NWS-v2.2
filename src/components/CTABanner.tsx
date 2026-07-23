@@ -12,7 +12,7 @@ type Props = {
 export function CTABanner({
   label = "Free consultation",
   title = "Ready to start your project?",
-  text = "Get a clear next step—no hard sell. Mention this website for a free consult and 5% off your next project.",
+  text = "Get a clear next step, no hard sell. Mention this website for a free consult and 5% off your next project.",
   ctaLabel = `Call ${site.phone.office}`,
   ctaHref = `tel:${site.phone.officeTel}`,
 }: Props) {

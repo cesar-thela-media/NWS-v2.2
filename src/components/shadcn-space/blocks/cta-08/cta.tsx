@@ -37,13 +37,17 @@ const CTA = () => {
             }}
             aria-hidden
           />
-          {/* Keep readable type without washing out to flat gray */}
+          {/* Upper-half heavy dark so "Ready to start your project?" stays legible */}
           <div
-            className="absolute inset-0 bg-gradient-to-b from-black/50 via-black/45 to-black/65"
+            className="absolute inset-0 bg-gradient-to-b from-black/80 via-black/55 to-black/35"
             aria-hidden
           />
           <div
-            className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,transparent_20%,rgba(5,5,5,0.35)_100%)]"
+            className="absolute inset-0 bg-[linear-gradient(180deg,rgba(5,5,5,0.55)_0%,rgba(5,5,5,0.35)_48%,transparent_72%)]"
+            aria-hidden
+          />
+          <div
+            className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,transparent_25%,rgba(5,5,5,0.3)_100%)]"
             aria-hidden
           />
 
@@ -90,7 +94,7 @@ const CTA = () => {
               transition={{ duration: 0.5, ease: "easeOut", delay: 0.2 }}
             >
               <p className="text-2xl lg:text-3xl font-medium text-foreground tracking-tight leading-snug max-w-md !m-0">
-                Get a clear next step—no hard sell. Mention this website for 5%
+                Get a clear next step, no hard sell. Mention this website for 5%
                 off.
               </p>
               <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 shrink-0">

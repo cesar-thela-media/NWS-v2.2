@@ -29,7 +29,7 @@ export interface Services10Props {
 export default function Services10({
   label = "What we do",
   heading = "Services built around how you live", // main section title
-  ctaText = "Tell us your goals—we'll map the right path.",
+  ctaText = "Tell us your goals, we'll map the right path.",
   ctaLinkText = "View all services",
   ctaHref = "/services/",
   services = nwsServices10,

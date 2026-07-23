@@ -3,7 +3,7 @@
 import { Separator } from "@/components/ui/separator";
 import { site } from "@/data/site";
 
-/** Copy block for orange contact section — light text on primary bg */
+/** Copy block for orange contact section, light text on primary bg */
 const ContactInfo = () => {
   return (
     <div className="flex flex-col md:gap-10 gap-8 text-white">

@@ -24,6 +24,8 @@ export const site = {
   },
   /** Official brand mark (same asset as www.nws-homes.com) */
   logo: "/images/gbp.png",
+  /** Transparent-background mark for dark/orange chrome */
+  logoTransparent: "/images/nws-logo-transparent.png",
   mapSmall: "/images/nws-custom-homes-and-remodeling-small-map.webp",
   mapFull: "/images/nws-custom-homes-and-remodeling-full-map.webp",
 } as const;

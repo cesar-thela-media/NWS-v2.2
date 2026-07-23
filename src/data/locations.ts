@@ -215,7 +215,7 @@ export const locations: Location[] = [
     body: [
       "Hiring the right remodeling company can feel like a gamble. Missed deadlines, unclear communication, and unexpected costs can turn a home upgrade into a stressful experience. Many homeowners are left chasing contractors or dealing with unfinished work that doesn't reflect their vision.",
       "That's where we come in. At NWS Custom Homes and Remodeling, we've been serving homeowners across the West Side of Houston, TX, since 2007 with dependable residential remodeling services tailored to your lifestyle. From small upgrades to full-scale transformations, we build with purpose and precision. Our team takes the time to understand your goals, offering creative design ideas and high-quality workmanship that bring your vision to life.",
-      "Whether you're planning a stylish kitchen update or a full home remodel, we deliver clear communication, reliable timelines, and personalized service. We know how important your home is—and we're here to make it better, not harder.",
+      "Whether you're planning a stylish kitchen update or a full home remodel, we deliver clear communication, reliable timelines, and personalized service. We know how important your home is, and we're here to make it better, not harder.",
       "Let us take the stress out of remodeling. With NWS, you can feel confident knowing your home is in capable hands.",
     ],
     ctaLabel: "Start Your Project",
@@ -224,7 +224,7 @@ export const locations: Location[] = [
       "Ready to start your remodel in the West Side of Houston, TX? Fill out the form below to connect with NWS Custom Homes and Remodeling for local, reliable renovation services.",
     sections: [
       {
-        heading: "Let's Build Something Great—Schedule Your Remodel Today!",
+        heading: "Let's Build Something Great, Schedule Your Remodel Today!",
         paragraphs: [
           "At NWS Custom Homes and Remodeling, we're proud to offer a full range of residential remodeling services designed to meet your unique remodeling goals. Whether you're improving functionality, increasing value, or just updating a space to reflect your taste, our work is customized to fit the needs of West Side of Houston, TX residents.",
         ],

@@ -12,7 +12,7 @@
   Geist for body/UI (shadcn base-nova default), Manrope bold for headings.
 */
 :root {
-  /* —— Glyph brand tokens (used by legacy pages + .btn / .section-*) —— */
+  /*, , Glyph brand tokens (used by legacy pages + .btn / .section-*), , */
   --color-bg: #fafaf9;
   --color-bg-alt: #f5f4f0;
   --color-text: #0c0a09;
@@ -21,7 +21,7 @@
   --color-primary-hover: #e03e00;
   --color-primary-soft: #ffc7b3;
   --color-white: #ffffff;
-  /* Text muted (legacy alias) — surface muted is --muted / bg-muted */
+  /* Text muted (legacy alias), surface muted is --muted / bg-muted */
   --color-muted: #6b6560;
   --color-border: #d4d0c8;
   --color-footer: #1c1917;
@@ -29,7 +29,7 @@
   --color-topbar: #f5f4f0;
   --color-dark: #050505;
 
-  /* Font stacks — layout sets --font-geist / --font-manrope */
+  /* Font stacks, layout sets --font-geist / --font-manrope */
   --nws-font-sans: var(--font-geist), "Geist", ui-sans-serif, system-ui,
     sans-serif;
   --nws-font-heading: var(--font-manrope), "Manrope", ui-sans-serif, system-ui,
@@ -43,7 +43,7 @@
   --shadow-card: 0 8px 30px rgba(12, 10, 9, 0.06);
   --shadow-soft: 0 4px 20px rgba(12, 10, 9, 0.05);
 
-  /* —— shadcn / Tailwind semantic tokens = same Glyph palette —— */
+  /*, , shadcn / Tailwind semantic tokens = same Glyph palette, , */
   --background: #fafaf9;
   --foreground: #0c0a09;
   --card: #ffffff;

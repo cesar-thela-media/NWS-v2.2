@@ -53,7 +53,7 @@ function HeroSection({
     { text: "West Houston, TX" },
   ],
   locationIntervalMs = 2200,
-  subhead = "Local team since 2007. Kitchens, baths, whole-home renovations, additions, and custom builds—planned and built with clear communication.",
+  subhead = "Local team since 2007. Kitchens, baths, whole-home renovations, additions, and custom builds, planned and built with clear communication.",
   primaryCta = { label: "Book a free consult", href: "tel:2812992309" },
   secondaryCta = { label: "View our work", href: "/remodeling-gallery/" },
   badge = "Serving Fort Bend since 2007",
@@ -157,7 +157,7 @@ function HeroSection({
           </Button>
         </motion.div>
 
-        {/* Organized social proof — no promo copy (lives in announcement bar) */}
+        {/* Organized social proof, no promo copy (lives in announcement bar) */}
         <motion.div
           initial={{ opacity: 0, y: 12 }}
           animate={{ opacity: 1, y: 0 }}

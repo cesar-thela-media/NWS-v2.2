@@ -13,14 +13,14 @@ import {
 } from "@/components/ui/carousel";
 import { cn } from "@/lib/utils";
 
-/** What we do — service cards (card-02 style UI + NWS copy/photos) */
+/** What we do, service cards (card-02 style UI + NWS copy/photos) */
 const portfolioItems = [
   {
     id: 1,
     badge: "Build",
     title: "Custom Home Building",
     description:
-      "From first plan to final walkthrough—built for how you live in Fort Bend County.",
+      "From first plan to final walkthrough, built for how you live in Fort Bend County.",
     image: "/images/custom-homes-1.jpeg",
     href: "/services/custom-home-builder/",
   },
@@ -76,7 +76,7 @@ function ServiceCard({
   item: (typeof portfolioItems)[0];
 }) {
   return (
-    <Card className="relative gap-0 py-0 rounded-2xl overflow-hidden border border-border/80 bg-card shadow-sm group hover:shadow-xl transition-shadow duration-300 h-full min-h-[28rem] sm:min-h-[30rem] md:min-h-[32rem]">
+    <Card className="relative gap-0 py-0 rounded-2xl overflow-hidden border border-white/10 bg-[#12181b] shadow-lg shadow-black/30 group hover:shadow-xl hover:border-primary/30 transition-all duration-300 h-full min-h-[28rem] sm:min-h-[30rem] md:min-h-[32rem]">
       <div className="relative overflow-hidden">
         <a href={item.href} className="block">
           <div className="w-full h-64 sm:h-72 md:h-80">
@@ -91,7 +91,7 @@ function ServiceCard({
           </div>
         </a>
         <div className="absolute top-5 right-5 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-          <span className="inline-flex size-11 items-center justify-center rounded-full bg-white text-foreground shadow-md">
+          <span className="inline-flex size-11 items-center justify-center rounded-full bg-primary text-white shadow-md">
             <ArrowRight className="size-5" />
           </span>
         </div>
@@ -100,13 +100,13 @@ function ServiceCard({
         </Badge>
       </div>
 
-      <div className="p-6 sm:p-7 md:p-8 flex flex-col gap-3.5 flex-1">
+      <div className="p-6 sm:p-7 md:p-8 flex flex-col gap-3.5 flex-1 bg-gradient-to-b from-[#141c20] to-[#0c1114]">
         <a href={item.href}>
-          <h3 className="text-xl sm:text-2xl font-bold tracking-tight text-foreground !m-0 group-hover:text-primary transition-colors duration-300">
+          <h3 className="text-xl sm:text-2xl font-bold tracking-tight text-white !m-0 group-hover:text-primary transition-colors duration-300">
             {item.title}
           </h3>
         </a>
-        <p className="text-base sm:text-lg text-muted-foreground leading-relaxed !m-0 flex-1">
+        <p className="text-base sm:text-lg text-white/65 leading-relaxed !m-0 flex-1">
           {item.description}
         </p>
         <a
@@ -124,7 +124,7 @@ function ServiceCard({
 const Portfolio = ({
   label = "What we do",
   heading = "Services built around how you live",
-  description = "From a single room to a full custom home—we scope, design, and build so every phase is clear for Fort Bend homeowners.",
+  description = "From a single room to a full custom home, we scope, design, and build so every phase is clear for Fort Bend homeowners.",
   ctaLabel = "View all services",
   ctaHref = "/services/",
 }: PortfolioProps) => {

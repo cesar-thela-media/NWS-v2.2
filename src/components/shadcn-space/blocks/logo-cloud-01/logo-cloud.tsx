@@ -105,7 +105,7 @@ function AreaLogo({ area }: { area: AreaLogoItem }) {
     <Link
       href={area.href}
       className="group mx-6 sm:mx-10 lg:mx-14 shrink-0 flex items-center gap-2.5 opacity-75 transition-opacity hover:opacity-100"
-      aria-label={`Areas we serve — ${area.short}`}
+      aria-label={`Areas we serve, ${area.short}`}
     >
       <LogoMark type={area.mark} />
       <span className="text-base sm:text-lg font-semibold tracking-[0.08em] uppercase text-zinc-100 whitespace-nowrap">
@@ -116,7 +116,7 @@ function AreaLogo({ area }: { area: AreaLogoItem }) {
 }
 
 /**
- * logo-cloud-01 — Areas we serve
+ * logo-cloud-01, Areas we serve
  * Dark marquee strip + light location logos (shadcnspace demo style).
  * Title + subcopy centered above the strip.
  */
@@ -137,7 +137,7 @@ export default function LogoCloudAreas() {
         </p>
       </div>
 
-      {/* Dark marquee strip — matches shadcnspace logo-cloud demo */}
+      {/* Dark marquee strip, matches shadcnspace logo-cloud demo */}
       <div className="relative overflow-hidden bg-zinc-950 py-8 sm:py-10">
         <Marquee pauseOnHover className="[--duration:40s] p-0 [--gap:0px]">
           {areas.map((area) => (

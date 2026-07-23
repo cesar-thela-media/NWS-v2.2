@@ -23,7 +23,7 @@ export default function HomePage() {
         badge="Serving Fort Bend since 2007"
         headline="Custom homes & remodels in"
         highlight="Richmond, TX"
-        subhead="Local team since 2007. Kitchens, baths, whole-home renovations, additions, and custom builds—planned and built with clear communication."
+        subhead="Local team since 2007. Kitchens, baths, whole-home renovations, additions, and custom builds, planned and built with clear communication."
         primaryCta={{ label: "Book a free consult", href: "tel:2812992309" }}
         secondaryCta={{ label: "View our work", href: "/remodeling-gallery/" }}
         rating="5.0"

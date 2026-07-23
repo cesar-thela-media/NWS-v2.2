@@ -1,11 +1,11 @@
-/** Data for Shadcn Space blocks — from content/COPY.md */
+/** Data for Shadcn Space blocks, from content/COPY.md */
 
 export const nwsServices10 = [
   {
     badge: "Build",
     title: "Custom Home Building",
     description:
-      "From first plan to final walkthrough—built for how you live in Fort Bend County.",
+      "From first plan to final walkthrough, built for how you live in Fort Bend County.",
     image: "/images/custom-home-richmond-tx.jpg",
     href: "/services/custom-home-builder/",
   },
@@ -70,7 +70,7 @@ export const nwsFaqs = [
   {
     question: "Can we live at home during the work?",
     answer:
-      "Often yes for partial remodels, with a temporary kitchen or bath plan. Large whole-home jobs may be easier if you relocate for part of the timeline—we’ll advise based on scope.",
+      "Often yes for partial remodels, with a temporary kitchen or bath plan. Large whole-home jobs may be easier if you relocate for part of the timeline, we’ll advise based on scope.",
   },
   {
     question: "What’s the 5% website offer?",

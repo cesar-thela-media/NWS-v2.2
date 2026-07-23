@@ -23,7 +23,7 @@ const Feature = () => {
               Built for Fort Bend homeowners
             </h2>
             <p className="text-base sm:text-lg font-normal text-muted-foreground max-w-xl">
-              From a single room to a full custom home—scoped, designed, and
+              From a single room to a full custom home, scoped, designed, and
               built with clear communication every step.
             </p>
           </motion.div>
@@ -84,7 +84,7 @@ const Feature = () => {
                   </p>
                   <p className="text-sm font-normal text-muted-foreground">
                     Service from kitchens and baths to additions and custom
-                    homes—one accountable team.
+                    homes, one accountable team.
                   </p>
                 </motion.div>
                 <motion.div

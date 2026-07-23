@@ -2,7 +2,7 @@
  * Real client reviews as published on nws-homes.com
  * (names, dates, quotes from Google / Angi on the live site).
  *
- * Avatar photos are professional stock-style portraits for UI only —
+ * Avatar photos are professional stock-style portraits for UI only, 
  * not verified Google profile photos of the named reviewers.
  * Project images are real NWS portfolio photos.
  */

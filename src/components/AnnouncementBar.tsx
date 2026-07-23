@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { site } from "@/data/site";
 
-/** Slim promo strip — Glyph orange primary */
+/** Slim promo strip, Glyph orange primary */
 export function AnnouncementBar() {
   return (
     <div className="w-full bg-primary text-primary-foreground">

@@ -152,7 +152,7 @@ export default function Testimonial() {
                 variants={itemVariants}
                 className="text-center text-base sm:text-lg text-muted-foreground max-w-lg !m-0"
               >
-                Real Google &amp; Angi reviews — names, dates, and quotes as
+                Real Google &amp; Angi reviews, names, dates, and quotes as
                 published on nws-homes.com.
               </motion.p>
             </div>

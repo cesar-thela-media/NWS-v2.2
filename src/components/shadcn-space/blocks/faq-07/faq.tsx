@@ -66,7 +66,7 @@ export default function Faq() {
                 Still have questions? Our team is ready to help.
               </h3>
               <p className="text-sm lg:text-base text-muted-foreground">
-                Call for a free consult or send a message—we&apos;ll confirm
+                Call for a free consult or send a message, we&apos;ll confirm
                 your address and next steps.
               </p>
             </div>

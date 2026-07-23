@@ -7,7 +7,7 @@ import Navbar from "@/components/shadcn-space/blocks/navbar-02/navbar";
 import Footer from "@/components/shadcn-space/blocks/footer-01/footer";
 import { cn } from "@/lib/utils";
 
-/** base-nova / shadcn default — body + UI */
+/** base-nova / shadcn default, body + UI */
 const geist = Geist({
   subsets: ["latin"],
   variable: "--font-geist",

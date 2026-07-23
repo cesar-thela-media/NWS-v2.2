@@ -1,7 +1,8 @@
 import Image from "next/image";
+import Link from "next/link";
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
-import { PageHero } from "@/components/PageHero";
+import { Button } from "@/components/ui/button";
 import { CTABanner } from "@/components/CTABanner";
 import { servicePages, getServicePage } from "@/data/servicePages";
 import { site } from "@/data/site";
@@ -22,6 +23,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   };
 }
 
+/** Service detail: split hero + narrow reading column (not PageHero stack) */
 export default async function ServicePage({ params }: Props) {
   const { slug } = await params;
   const page = getServicePage(slug);
@@ -29,49 +31,69 @@ export default async function ServicePage({ params }: Props) {
 
   return (
     <>
-      <PageHero
-        breadcrumbs={[
-          { label: "Home", href: "/" },
-          { label: "Services", href: "/services/" },
-          { label: page.breadcrumb },
-        ]}
-        title={page.breadcrumb}
-        ctaLabel={page.heroCta || "Get In Touch"}
-        ctaHref="/contact/"
-      />
-
-      <section className="py-14 md:py-16 bg-[var(--color-bg)]">
-        <div className="container max-w-4xl text-center">
+      <section className="grid grid-cols-1 lg:grid-cols-2 min-h-[min(70svh,640px)]">
+        <div className="relative min-h-[16rem] lg:min-h-full order-1 lg:order-2">
+          <Image
+            src={page.image || "/images/kitchen-gallery-1.jpeg"}
+            alt={page.imageAlt || page.breadcrumb}
+            fill
+            className="object-cover"
+            priority
+          />
+        </div>
+        <div className="flex flex-col justify-center gap-5 px-6 sm:px-10 lg:px-16 py-14 bg-[#12181b] text-white order-2 lg:order-1">
+          <nav className="text-sm text-white/55">
+            <Link href="/" className="hover:text-primary">
+              Home
+            </Link>
+            <span className="mx-2">/</span>
+            <Link href="/services/" className="hover:text-primary">
+              Services
+            </Link>
+            <span className="mx-2">/</span>
+            <span className="text-white/90">{page.breadcrumb}</span>
+          </nav>
           {page.heroLabel && (
-            <p className="section-label">{page.heroLabel}</p>
+            <p className="text-sm font-semibold text-primary !m-0">
+              {page.heroLabel}
+            </p>
           )}
-          <h2 className="section-title section-title-lg">{page.heroTitle}</h2>
-          <p className="text-muted-foreground text-lg max-w-3xl mx-auto mb-6">
+          <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight !m-0">
+            {page.heroTitle || page.h1}
+          </h1>
+          <p className="text-white/75 text-base sm:text-lg !m-0 max-w-xl">
             {page.heroText}
           </p>
+          <div className="flex flex-wrap gap-3 pt-2">
+            <Button
+              className="rounded-[4px] h-11 !text-white"
+              render={
+                <a href={`tel:${site.phone.officeTel}`}>
+                  {page.heroCta || "Get in touch"}
+                </a>
+              }
+            >
+              {page.heroCta || "Get in touch"}
+            </Button>
+            <Button
+              variant="outline"
+              className="rounded-[4px] h-11 !border-white/35 !text-white hover:!bg-white/10"
+              render={<Link href="/remodeling-gallery/" />}
+            >
+              View our work
+            </Button>
+          </div>
         </div>
       </section>
 
-      <section className="py-12 md:py-16 bg-[var(--color-bg)]">
-        <div className="container prose-nws max-w-4xl">
-          <h1 className="text-[28px] md:text-[36px] text-[var(--color-heading)]">
+      <section className="py-14 md:py-20 bg-background">
+        <div className="max-w-3xl mx-auto px-4 sm:px-6 prose-nws">
+          <h2 className="text-[26px] md:text-[32px] text-foreground font-bold tracking-tight">
             {page.h1}
-          </h1>
+          </h2>
           {page.intro.map((p) => (
             <p key={p.slice(0, 40)}>{p}</p>
           ))}
-
-          {page.image && (
-            <div className="content-image">
-              <Image
-                src={page.image}
-                alt={page.imageAlt || page.breadcrumb}
-                width={900}
-                height={600}
-                className="w-full h-auto"
-              />
-            </div>
-          )}
 
           {page.sections.map((section) => (
             <div key={section.heading} className="mt-10">
@@ -101,22 +123,17 @@ export default async function ServicePage({ params }: Props) {
 
           {page.faqs && page.faqs.length > 0 && (
             <div className="mt-14">
-              <h2 className="section-title">
-                {page.slug === "home-remodel"
-                  ? "Frequently Asked Questions About Home Remodeling"
-                  : page.slug === "kitchen-remodeling"
-                    ? "Frequently Asked Questions About Kitchen Remodeling"
-                    : page.slug === "bathroom-remodeling"
-                      ? "Bathroom Remodeling FAQ"
-                      : page.slug === "custom-home-builder"
-                        ? "Custom Home Building FAQ"
-                        : `${page.breadcrumb} FAQ`}
-              </h2>
-              <div className="mt-4">
+              <h2 className="section-title">FAQ</h2>
+              <div className="mt-4 space-y-3">
                 {page.faqs.map((faq) => (
-                  <details key={faq.q} className="faq-item">
-                    <summary>{faq.q}</summary>
-                    <div className="faq-answer">{faq.a}</div>
+                  <details
+                    key={faq.q}
+                    className="rounded-xl border border-border bg-muted/30 p-4"
+                  >
+                    <summary className="font-semibold cursor-pointer">
+                      {faq.q}
+                    </summary>
+                    <div className="mt-2 text-muted-foreground">{faq.a}</div>
                   </details>
                 ))}
               </div>

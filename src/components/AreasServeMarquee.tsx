@@ -83,7 +83,7 @@ function AreaCard({
 }
 
 /**
- * Areas we serve — horizontal marquee of large UI cards
+ * Areas we serve, horizontal marquee of large UI cards
  * (replaces carousel-08 in this section)
  */
 export function AreasServeMarquee() {

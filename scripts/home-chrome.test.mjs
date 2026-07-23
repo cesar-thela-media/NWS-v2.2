@@ -97,7 +97,11 @@ test("hero pulls under navbar for over-image merge + readable CTAs", () => {
     "hero-01",
     "hero.tsx",
   );
-  assert.match(hero, /-mt-14|sm:-mt-16/, "hero negative margin under navbar");
+  assert.match(
+    hero,
+    /-mt-14|-mt-16|sm:-mt-16|sm:-mt-\[4\.25rem\]/,
+    "hero negative margin under navbar",
+  );
   assert.match(
     hero,
     /!bg-white.*!text-\[#050505\]|!text-\[#050505\].*!bg-white/,

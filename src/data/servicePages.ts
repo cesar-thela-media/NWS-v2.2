@@ -37,7 +37,7 @@ export const servicePages: ServicePage[] = [
       "At NWS Custom Homes and Remodeling, we work with you from start to finish to ensure your home is everything you've envisioned. Whether you're dreaming of something modern, traditional, or entirely unique, our team is ready to bring your ideas to life with expert craftsmanship and care.",
     h1: "Work With a Professional Custom Home Builder in Richmond, TX, and Fort Bend County",
     intro: [
-      "When it comes to building custom homes, we believe the process should reflect your lifestyle and personality. As a custom home builder serving Richmond, TX, and Fort Bend County, we understand that no two families are the same—and your home shouldn't be either. From the first consultation to the final walk-through, we tailor every step to your needs, making us a top choice among home builders in the area.",
+      "When it comes to building custom homes, we believe the process should reflect your lifestyle and personality. As a custom home builder serving Richmond, TX, and Fort Bend County, we understand that no two families are the same, and your home shouldn't be either. From the first consultation to the final walk-through, we tailor every step to your needs, making us a top choice among home builders in the area.",
     ],
     image: "/images/custom-home-richmond-tx.jpg",
     imageAlt: "custom home building plan design on table with tools richmond tx",
@@ -395,7 +395,7 @@ export const servicePages: ServicePage[] = [
       {
         heading: "Energy-Efficient and Sustainable Materials",
         paragraphs: [
-          "Eco-friendly design continues to influence bathroom remodeling. Sustainable materials such as recycled glass tiles, bamboo vanities, and low-VOC paints are in high demand. Water-saving fixtures—like dual-flush toilets and low-flow faucets—help reduce waste without compromising performance.",
+          "Eco-friendly design continues to influence bathroom remodeling. Sustainable materials such as recycled glass tiles, bamboo vanities, and low-VOC paints are in high demand. Water-saving fixtures, like dual-flush toilets and low-flow faucets, help reduce waste without compromising performance.",
         ],
       },
       {
@@ -773,7 +773,7 @@ export const servicePages: ServicePage[] = [
         heading: "Why Homeowners Choose Our Basement Finishing",
         paragraphs: [
           "When it comes to basement finishing, choosing the right contractor makes all the difference. Our basement finishing contractors help homeowners create functional spaces that match their style and goals.",
-          "With our basement finishing services, you don't just add another room—you add comfort, value, and usability. Families often use these spaces for in-law suites, playrooms, gyms, or home theaters.",
+          "With our basement finishing services, you don't just add another room, you add comfort, value, and usability. Families often use these spaces for in-law suites, playrooms, gyms, or home theaters.",
         ],
       },
       {
@@ -786,7 +786,7 @@ export const servicePages: ServicePage[] = [
     ],
     ctaTitle: "Start Your Basement Remodel Now",
     ctaText:
-      "Create the perfect basement space for your family—schedule your remodeling project today and bring your vision to life without delay.",
+      "Create the perfect basement space for your family, schedule your remodeling project today and bring your vision to life without delay.",
     ctaButton: "Dial Now",
   },
   {

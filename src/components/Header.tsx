@@ -27,7 +27,7 @@ export function Header() {
 
   return (
     <header className="sticky top-0 z-50 bg-white border-b border-[var(--color-border)]">
-      {/* Single slim row — Glyph-style density; logo hard-capped so Next/Image cannot overflow */}
+      {/* Single slim row, Glyph-style density; logo hard-capped so Next/Image cannot overflow */}
       <div className="container flex items-center justify-between gap-3 h-14 md:h-16">
         <Link
           href="/"

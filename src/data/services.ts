@@ -32,7 +32,7 @@ export const serviceCards: ServiceCard[] = [
     slug: "kitchen-remodeling",
     title: "Kitchen Remodeling",
     front:
-      "Kitchen remodeling is a great way to breathe new life into your home. We've got the expertise and experience you need to pull it off. We'll work with you every step of the way to create the kitchen of your dreams—no matter what that looks like.",
+      "Kitchen remodeling is a great way to breathe new life into your home. We've got the expertise and experience you need to pull it off. We'll work with you every step of the way to create the kitchen of your dreams, no matter what that looks like.",
     back: "Our team will help you choose the right materials for your space and budget, as well as offer tips for making sure everything works together seamlessly. We work hard at keeping our costs fair while still providing high-quality service.",
     icon: "/images/flipcard-service-3.svg",
     href: "/services/kitchen-remodeling/",
@@ -41,7 +41,7 @@ export const serviceCards: ServiceCard[] = [
     slug: "bathroom-remodeling",
     title: "Bathroom Remodeling",
     front:
-      "Are you ready to take your bathroom to the next level? We've got everything you need to turn that tired, outdated space into a gorgeous, relaxing oasis—and we can do it all with minimal disruption to your busy life.",
+      "Are you ready to take your bathroom to the next level? We've got everything you need to turn that tired, outdated space into a gorgeous, relaxing oasis, and we can do it all with minimal disruption to your busy life.",
     back: "We can help you add the perfect finishing touches to your bathroom remodel that will make it feel like home and help make your remodel experience as enjoyable as possible.",
     icon: "/images/icon-bathroom.svg",
     href: "/services/bathroom-remodeling/",

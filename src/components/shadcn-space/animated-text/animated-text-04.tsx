@@ -9,7 +9,7 @@ type RollerItem = {
 };
 
 export type AnimatedTextRollerProps = {
-  /** Line 1 — static (e.g. "Custom homes & remodels in") */
+  /** Line 1, static (e.g. "Custom homes & remodels in") */
   prefix?: string;
   items: RollerItem[];
   intervalMs?: number;
