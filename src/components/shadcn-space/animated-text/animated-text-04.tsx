@@ -55,7 +55,7 @@ const AnimatedTextRoller = ({
       )}
     >
       {prefix ? (
-        <span className="block w-full text-center text-white text-balance px-1 leading-[1.15]">
+        <span className="block w-full text-center text-white whitespace-nowrap px-1 leading-[1.15]">
           {prefix}
         </span>
       ) : null}

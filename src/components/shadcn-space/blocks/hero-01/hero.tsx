@@ -105,7 +105,7 @@ function HeroSection({
             initial={{ opacity: 0, y: 32 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 1, ease: "easeOut" }}
-            className="text-[2rem] leading-[1.15] sm:text-5xl md:text-6xl lg:text-7xl font-bold tracking-tight text-white !m-0 max-w-4xl w-full px-1 text-center"
+            className="text-[1.65rem] leading-[1.15] sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold tracking-tight text-white !m-0 max-w-5xl w-full px-2 text-center"
           >
             {locations.length > 1 ? (
               <AnimatedTextRoller
