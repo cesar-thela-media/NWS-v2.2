@@ -90,7 +90,7 @@ test("hero roller uses hard clip to prevent letter bleed", () => {
   );
 });
 
-test("navbar Book Now goes to contact (desktop-friendly) and orange hover", () => {
+test("navbar Book Now goes to contact (desktop-friendly) and orange hover/open", () => {
   const nav = read(
     "src",
     "components",
@@ -99,6 +99,7 @@ test("navbar Book Now goes to contact (desktop-friendly) and orange hover", () =
     "navbar-02",
     "navbar.tsx",
   );
+  const triggerStyle = read("src", "components", "ui", "navigation-menu.tsx");
   assert.match(nav, /href=["']\/contact\/["']/);
   assert.doesNotMatch(
     nav,
@@ -106,9 +107,31 @@ test("navbar Book Now goes to contact (desktop-friendly) and orange hover", () =
     "Book Now should not be tel-only",
   );
   assert.match(nav, /hover:!text-primary|hover:text-primary/);
+  // Base UI open attrs — not Radix data-[state=open]
+  assert.match(nav, /data-popup-open:!bg-primary|data-popup-open:bg-primary/);
+  assert.match(nav, /data-popup-open:!text-primary|data-popup-open:text-primary/);
+  assert.match(nav, /data-open:!bg-primary|data-open:bg-primary/);
+  assert.doesNotMatch(
+    nav,
+    /data-\[state=open\]:bg-primary/,
+    "must not rely on Radix data-[state=open] for open fill",
+  );
+  // Default trigger must not hardcode muted open wash
+  assert.doesNotMatch(
+    triggerStyle,
+    /data-popup-open:bg-muted/,
+    "navigationMenuTriggerStyle must not force muted open background",
+  );
   assert.doesNotMatch(nav, /subtitle:\s*"What we build"/);
   assert.doesNotMatch(nav, /subtitle:\s*"Our work"/);
   assert.doesNotMatch(nav, /subtitle:\s*"Where we work"/);
+});
+
+test("Button sets nativeButton false when render is used", () => {
+  const btn = read("src", "components", "ui", "button.tsx");
+  assert.match(btn, /nativeButton/);
+  assert.match(btn, /render === undefined/);
+  assert.match(btn, /resolvedNative/);
 });
 
 test("contact forms are n8n webhook-ready via env", () => {

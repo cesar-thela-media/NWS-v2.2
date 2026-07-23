@@ -216,10 +216,11 @@ const Navbar = () => {
     setIsOpen(false);
   }, [pathname]);
 
-  // Hover/open → primary orange (not white wash). !text-* for globals `a { color: inherit }`
+  // Base UI uses data-popup-open / data-open (not Radix data-[state=open]).
+  // Hover + open → primary orange (never muted white wash).
   const linkTone = overHero
-    ? "text-sm font-medium !text-white/85 hover:!text-primary hover:bg-primary/15 data-[state=open]:bg-primary/20 data-[state=open]:!text-primary focus:bg-primary/15 rounded-[4px] transition-colors"
-    : "text-sm font-medium text-muted-foreground hover:!text-primary hover:bg-primary/10 data-[state=open]:bg-primary/10 data-[state=open]:!text-primary focus:bg-primary/10 rounded-[4px] transition-colors";
+    ? "text-sm font-medium !text-white/85 hover:!text-primary hover:!bg-primary/15 data-popup-open:!bg-primary/20 data-popup-open:!text-primary data-open:!bg-primary/20 data-open:!text-primary focus:!bg-primary/15 rounded-[4px] transition-colors"
+    : "text-sm font-medium text-muted-foreground hover:!text-primary hover:!bg-primary/10 data-popup-open:!bg-primary/10 data-popup-open:!text-primary data-open:!bg-primary/10 data-open:!text-primary focus:!bg-primary/10 rounded-[4px] transition-colors";
 
   return (
     <header
@@ -227,9 +228,9 @@ const Navbar = () => {
       data-over-hero={overHero ? "true" : "false"}
       className={cn(
         "sticky top-0 z-50 w-full border-b transition-[background-color,box-shadow,border-color,color] duration-200",
-        // Force light link color on over-hero: globals `a { color: inherit }` otherwise wins
+        // Over-hero: force link/trigger colors; open state uses Base UI data-popup-open
         overHero &&
-          "[&_a[data-slot=navigation-menu-link]]:!text-white/85 [&_a[data-slot=navigation-menu-link]]:hover:!text-primary [&_button[data-slot=navigation-menu-trigger]]:!text-white/85 [&_button[data-slot=navigation-menu-trigger]]:hover:!text-primary [&_button[data-slot=navigation-menu-trigger]]:data-[state=open]:!text-primary",
+          "[&_a[data-slot=navigation-menu-link]]:!text-white/85 [&_a[data-slot=navigation-menu-link]]:hover:!text-primary [&_button[data-slot=navigation-menu-trigger]]:!text-white/85 [&_button[data-slot=navigation-menu-trigger]]:hover:!text-primary [&_button[data-slot=navigation-menu-trigger]]:data-popup-open:!text-primary [&_button[data-slot=navigation-menu-trigger]]:data-open:!text-primary",
         overHero
           ? "bg-transparent border-transparent shadow-none"
           : scrolled
