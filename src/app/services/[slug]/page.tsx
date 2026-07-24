@@ -31,8 +31,11 @@ export default async function ServicePage({ params }: Props) {
 
   return (
     <>
-      <section className="grid grid-cols-1 lg:grid-cols-2 min-h-[min(70svh,640px)]">
-        <div className="relative min-h-[16rem] lg:min-h-full order-1 lg:order-2">
+      <section
+        className="grid grid-cols-1 lg:grid-cols-2 min-h-[min(72svh,680px)]"
+        data-service-split-hero
+      >
+        <div className="relative min-h-[18rem] lg:min-h-full order-1 lg:order-2">
           <Image
             src={page.image || "/images/kitchen-gallery-1.jpeg"}
             alt={page.imageAlt || page.breadcrumb}
@@ -40,53 +43,66 @@ export default async function ServicePage({ params }: Props) {
             className="object-cover"
             priority
           />
+          <div
+            className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent lg:bg-gradient-to-l lg:from-transparent lg:via-transparent lg:to-black/10"
+            aria-hidden
+          />
         </div>
-        <div className="flex flex-col justify-center gap-5 px-6 sm:px-10 lg:px-16 py-14 bg-[#12181b] text-white order-2 lg:order-1">
-          <nav className="text-sm text-white/55">
-            <Link href="/" className="hover:text-primary">
-              Home
-            </Link>
-            <span className="mx-2">/</span>
-            <Link href="/services/" className="hover:text-primary">
-              Services
-            </Link>
-            <span className="mx-2">/</span>
-            <span className="text-white/90">{page.breadcrumb}</span>
-          </nav>
-          {page.heroLabel && (
-            <p className="text-sm font-semibold text-primary !m-0">
-              {page.heroLabel}
+        <div className="relative flex flex-col justify-center gap-5 px-6 sm:px-10 lg:px-16 py-16 bg-[#12181b] text-white order-2 lg:order-1 overflow-hidden">
+          <div
+            className="absolute inset-0 bg-[color-mix(in_oklab,var(--primary)_10%,transparent)] pointer-events-none"
+            aria-hidden
+          />
+          <div className="relative z-10 flex flex-col gap-5">
+            <nav className="text-sm text-white/60">
+              <Link href="/" className="hover:text-primary text-white/70">
+                Home
+              </Link>
+              <span className="mx-2 text-white/35">/</span>
+              <Link href="/services/" className="hover:text-primary text-white/70">
+                Services
+              </Link>
+              <span className="mx-2 text-white/35">/</span>
+              <span className="text-white">{page.breadcrumb}</span>
+            </nav>
+            {page.heroLabel && (
+              <p className="text-sm font-semibold text-primary !m-0">
+                {page.heroLabel}
+              </p>
+            )}
+            <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight text-white !m-0">
+              {page.heroTitle || page.h1}
+            </h1>
+            <p className="text-white/80 text-base sm:text-lg !m-0 max-w-xl">
+              {page.heroText}
             </p>
-          )}
-          <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight !m-0">
-            {page.heroTitle || page.h1}
-          </h1>
-          <p className="text-white/75 text-base sm:text-lg !m-0 max-w-xl">
-            {page.heroText}
-          </p>
-          <div className="flex flex-wrap gap-3 pt-2">
-            <Button
-              className="rounded-[4px] h-11 !text-white"
-              render={
-                <a href={`tel:${site.phone.officeTel}`}>
-                  {page.heroCta || "Get in touch"}
-                </a>
-              }
-            >
-              {page.heroCta || "Get in touch"}
-            </Button>
-            <Button
-              variant="outline"
-              className="rounded-[4px] h-11 !border-white/35 !text-white hover:!bg-white/10"
-              render={<Link href="/remodeling-gallery/" />}
-            >
-              View our work
-            </Button>
+            <div className="flex flex-wrap gap-3 pt-2">
+              <Button
+                className="rounded-[4px] h-11 !text-white"
+                render={
+                  <a href={`tel:${site.phone.officeTel}`}>
+                    {page.heroCta || "Get in touch"}
+                  </a>
+                }
+              >
+                {page.heroCta || "Get in touch"}
+              </Button>
+              <Button
+                variant="outline"
+                className="rounded-[4px] h-11 !border-white/40 !text-white hover:!bg-white/10"
+                render={<Link href="/remodeling-gallery/" />}
+              >
+                View our work
+              </Button>
+            </div>
           </div>
         </div>
       </section>
 
-      <section className="py-14 md:py-20 bg-background">
+      <section
+        className="py-14 md:py-20 bg-background"
+        data-service-longform
+      >
         <div className="max-w-3xl mx-auto px-4 sm:px-6 prose-nws">
           <h2 className="text-[26px] md:text-[32px] text-foreground font-bold tracking-tight">
             {page.h1}

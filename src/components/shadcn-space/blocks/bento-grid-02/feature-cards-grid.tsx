@@ -1,10 +1,3 @@
-import {
-  Card,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
-
 const features = [
   {
     title: "Since 2007",
@@ -29,32 +22,44 @@ const features = [
   },
 ];
 
+/**
+ * About bento cards: equal aspect images, soft bottom fade into orange panel + white type.
+ */
 export function FeatureCardsGrid() {
   return (
-    <div>
+    <div data-bento-orange-cards>
       <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
         {features.map((feature) => (
-          <Card
+          <article
             key={feature.title}
-            className="flex h-auto min-h-75 flex-col overflow-hidden rounded-xl border border-border bg-muted py-0 gap-0 shadow-none ring-0"
+            className="group relative flex flex-col overflow-hidden rounded-xl border border-primary/20 bg-primary shadow-none min-h-[22rem]"
           >
-            <div className="relative flex flex-1 items-center justify-center overflow-hidden min-h-[10rem]">
+            <div className="relative aspect-[4/3] w-full overflow-hidden shrink-0">
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
                 src={feature.image}
                 alt={feature.alt}
-                className="absolute inset-0 w-full h-full object-cover"
+                className="absolute inset-0 h-full w-full object-cover transition-transform duration-500 group-hover:scale-[1.03]"
+              />
+              {/* Soft seamless fade image → orange text panel */}
+              <div
+                className="pointer-events-none absolute inset-x-0 bottom-0 h-2/5 bg-gradient-to-b from-transparent via-primary/55 to-primary"
+                aria-hidden
+              />
+              <div
+                className="pointer-events-none absolute inset-x-0 bottom-0 h-1/3 backdrop-blur-[2px] bg-gradient-to-b from-transparent to-primary/40"
+                aria-hidden
               />
             </div>
-            <CardHeader className="flex flex-col gap-2 lg:gap-0.5 p-5 sm:p-6 pt-0 sm:pt-0 pb-5 sm:pb-6 bg-card">
-              <CardTitle className="text-lg font-medium text-foreground">
+            <div className="relative z-[1] flex flex-1 flex-col gap-2 bg-primary px-5 pb-6 pt-2 sm:px-6">
+              <h3 className="text-lg font-semibold tracking-tight text-white !m-0">
                 {feature.title}
-              </CardTitle>
-              <CardDescription className="text-sm text-muted-foreground leading-normal">
+              </h3>
+              <p className="text-sm leading-normal text-white/90 !m-0">
                 {feature.description}
-              </CardDescription>
-            </CardHeader>
-          </Card>
+              </p>
+            </div>
+          </article>
         ))}
       </div>
     </div>

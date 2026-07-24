@@ -161,12 +161,19 @@ test("non-home page families use distinct layout markers", () => {
       about.includes("bento-grid-02"),
   );
   assert.ok(
-    gallery.includes("columns-1") || gallery.includes("break-inside-avoid"),
+    gallery.includes("Hero22") ||
+      gallery.includes("GalleryMasonry") ||
+      gallery.includes("columns-1") ||
+      gallery.includes("break-inside-avoid"),
   );
   assert.ok(
     location.includes("lg:sticky") || location.includes("Areas we serve"),
   );
-  assert.ok(services.includes("space-y-6") && services.includes("md:col-span-5"));
+  assert.ok(
+    (services.includes("hero-12") &&
+      services.includes("ServiceAlternatingStrips")) ||
+      (services.includes("space-y-6") && services.includes("md:col-span-5")),
+  );
   assert.ok(serviceDetail.includes("lg:grid-cols-2"));
   assert.ok(areas.includes("mapFull") || areas.includes("Areas we serve"));
 

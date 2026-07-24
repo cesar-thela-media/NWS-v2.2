@@ -1,79 +1,74 @@
-import Image from "next/image";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
-import Gallery04 from "@/components/shadcn-space/blocks/gallery-04/gallery";
+import Hero22 from "@/components/shadcn-space/blocks/hero-22/hero";
+import { GalleryMasonry } from "@/components/GalleryMasonry";
 import type { Gallery } from "@/data/galleries";
 
 /**
- * Gallery family layout: full-bleed intro band + masonry-like staggered grid
- * (distinct from location prose + map / about stats patterns).
+ * Gallery family: Hero 22 carousel + scratch masonry + contrast-safe secondary band.
  */
 export function GalleryPage({ gallery }: { gallery: Gallery }) {
   return (
     <>
-      <section className="relative overflow-hidden bg-[#0a0e10] text-white">
+      <Hero22
+        eyebrow="Project gallery"
+        heading={gallery.heading}
+        description={gallery.description}
+        ctaText="Start a project"
+        ctaHref="/contact/"
+        images={gallery.images.slice(0, 7)}
+      />
+
+      <GalleryMasonry images={gallery.images} heading={gallery.heading} />
+
+      {/* Secondary showcase band - forced light copy on dark for contrast */}
+      <section
+        className="relative overflow-hidden bg-[#0a0e10] text-white py-16 md:py-20"
+        data-gallery-secondary-band
+      >
         <div
-          className="absolute inset-0 opacity-40 bg-cover bg-center"
+          className="absolute inset-0 bg-cover bg-center opacity-35"
           style={{
-            backgroundImage: `url(${gallery.images[0] || "/images/custom-homes-1.jpeg"})`,
+            backgroundImage: `url(${gallery.images[1] || gallery.images[0] || "/images/custom-homes-1.jpeg"})`,
           }}
           aria-hidden
         />
-        <div className="absolute inset-0 bg-gradient-to-r from-black/90 via-black/75 to-black/40" />
-        <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 sm:py-28">
+        <div
+          className="absolute inset-0 bg-gradient-to-b from-black/80 via-black/70 to-[#0a0e10]"
+          aria-hidden
+        />
+        <div
+          className="absolute inset-0 bg-[color-mix(in_oklab,var(--primary)_14%,transparent)]"
+          aria-hidden
+        />
+        <div className="relative z-10 max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <p className="text-sm font-semibold text-primary !m-0 mb-3">
-            Project gallery
+            Other project gallery
           </p>
-          <h1 className="text-4xl sm:text-5xl font-bold tracking-tight !m-0 max-w-2xl">
-            {gallery.heading}
-          </h1>
-          <p className="mt-4 text-white/75 max-w-xl text-base sm:text-lg !m-0">
-            {gallery.description}
+          <h2 className="text-3xl sm:text-4xl font-bold tracking-tight text-white !m-0">
+            Ready to see your home transformed?
+          </h2>
+          <p className="mt-4 text-base sm:text-lg text-white/85 !m-0 max-w-xl mx-auto">
+            Browse more kitchens, baths, and full remodels, or talk with our
+            Richmond team about your next project.
           </p>
-          <div className="mt-8 flex flex-wrap gap-3">
+          <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
             <Button
               className="rounded-[4px] h-11 !text-white"
-              render={<Link href="/contact/" />}
+              render={<Link href="/remodeling-gallery/" />}
             >
-              Start a project
+              View remodeling gallery
             </Button>
             <Button
               variant="outline"
-              className="rounded-[4px] h-11 !border-white/40 !text-white hover:!bg-white/10"
-              render={<a href="tel:2812992309" />}
+              className="rounded-[4px] h-11 border-white/50 bg-transparent !text-white hover:!bg-white/15 hover:!text-white"
+              render={<Link href="/contact/" />}
             >
-              Call us
+              Book a consult
             </Button>
           </div>
         </div>
       </section>
-
-      <section className="py-12 md:py-16 bg-background">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="columns-1 sm:columns-2 lg:columns-3 gap-4 space-y-4">
-            {gallery.images.map((src, i) => (
-              <a
-                key={src}
-                href={src}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="block break-inside-avoid rounded-xl overflow-hidden border border-border shadow-sm hover:shadow-md transition-shadow"
-              >
-                <Image
-                  src={src}
-                  alt={`${gallery.heading} ${i + 1}`}
-                  width={600}
-                  height={i % 3 === 0 ? 520 : 400}
-                  className="w-full h-auto object-cover"
-                />
-              </a>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Extra shadcn-space gallery band for layout diversity on gallery family */}
-      <Gallery04 />
     </>
   );
 }

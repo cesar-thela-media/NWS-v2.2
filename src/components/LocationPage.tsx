@@ -6,8 +6,8 @@ import { site } from "@/data/site";
 import type { Location } from "@/data/locations";
 
 /**
- * Location family: editorial photo rail + sticky CTA, then form.
- * Distinct from about (stats) and gallery (masonry).
+ * Location family: photo header band + sticky rail longform + map/form tail.
+ * Decorative orange wash + grain on header; NWS work photo for rail.
  */
 export function LocationPage({ location }: { location: Location }) {
   const ctaHref =
@@ -24,25 +24,56 @@ export function LocationPage({ location }: { location: Location }) {
 
   return (
     <>
-      <section className="bg-muted/40 border-b border-border">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 sm:py-14">
-          <nav className="text-sm text-muted-foreground mb-4">
-            <Link href="/" className="hover:text-primary">
+      <section
+        className="relative overflow-hidden border-b border-border text-white"
+        data-location-header-band
+      >
+        <div
+          className="absolute inset-0 bg-cover bg-center"
+          style={{ backgroundImage: `url(${heroSrc})` }}
+          aria-hidden
+        />
+        <div
+          className="absolute inset-0 bg-gradient-to-r from-black/90 via-black/75 to-black/45"
+          aria-hidden
+        />
+        <div
+          className="absolute inset-0 bg-[color-mix(in_oklab,var(--primary)_22%,transparent)]"
+          aria-hidden
+        />
+        <div
+          className="absolute inset-0 opacity-[0.1] mix-blend-overlay pointer-events-none"
+          style={{
+            backgroundImage:
+              "url(\"data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.5'/%3E%3C/svg%3E\")",
+          }}
+          aria-hidden
+        />
+        <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-14 sm:py-20 pt-28">
+          <nav className="text-sm text-white/70 mb-4">
+            <Link href="/" className="hover:text-primary text-white/80">
               Home
             </Link>
-            <span className="mx-2">/</span>
-            <span className="text-foreground">{location.name}</span>
+            <span className="mx-2 text-white/40">/</span>
+            <Link
+              href="/areas-we-serve/"
+              className="hover:text-primary text-white/80"
+            >
+              Areas
+            </Link>
+            <span className="mx-2 text-white/40">/</span>
+            <span className="text-white">{location.name}</span>
           </nav>
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-end">
             <div className="lg:col-span-7">
               <p className="text-sm font-semibold text-primary !m-0 mb-2">
                 Areas we serve
               </p>
-              <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight text-foreground !m-0">
+              <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight text-white !m-0">
                 {location.name}
               </h1>
             </div>
-            <div className="lg:col-span-5 flex lg:justify-end gap-3">
+            <div className="lg:col-span-5 flex flex-wrap lg:justify-end gap-3">
               <Button
                 className="rounded-[4px] h-11 !text-white"
                 render={<a href={ctaHref} />}
@@ -51,7 +82,7 @@ export function LocationPage({ location }: { location: Location }) {
               </Button>
               <Button
                 variant="outline"
-                className="rounded-[4px] h-11"
+                className="rounded-[4px] h-11 !border-white/45 !text-white hover:!bg-white/10"
                 render={<Link href="/services/" />}
               >
                 Services
@@ -125,17 +156,21 @@ export function LocationPage({ location }: { location: Location }) {
         </div>
       </section>
 
-      <section className="py-16 bg-[#0f1416] text-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 lg:grid-cols-2 gap-10 items-start">
+      <section className="relative py-16 overflow-hidden bg-[#0f1416] text-white">
+        <div
+          className="absolute inset-0 bg-[color-mix(in_oklab,var(--primary)_12%,transparent)]"
+          aria-hidden
+        />
+        <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 lg:grid-cols-2 gap-10 items-start">
           <div>
             <p className="text-primary font-semibold text-sm !m-0 mb-2">
               Local presence
             </p>
-            <h2 className="text-2xl sm:text-3xl font-bold !m-0 mb-4">
+            <h2 className="text-2xl sm:text-3xl font-bold text-white !m-0 mb-4">
               {location.formTitle}
             </h2>
             {location.formIntro && (
-              <p className="text-white/70 mb-6">{location.formIntro}</p>
+              <p className="text-white/75 mb-6">{location.formIntro}</p>
             )}
             <div className="rounded-xl overflow-hidden border border-white/10">
               <Image

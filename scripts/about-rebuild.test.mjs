@@ -27,16 +27,15 @@ test("About page mounts Space trio and not feature-18 or cinematic custom hero",
   assert.doesNotMatch(page, /Your go-to home builders/); // title lives in hero-13 block now
 });
 
-test("About hero embeds NWS YouTube id and has stats strip not BrandSlider", () => {
+test("About hero embeds NWS YouTube id; stats strip removed; no BrandSlider", () => {
   const hero = read("src/components/shadcn-space/blocks/hero-13/hero.tsx");
   const index = read("src/components/shadcn-space/blocks/hero-13/index.tsx");
   assert.match(hero, /nSJ_8lzRTjM/);
-  assert.match(hero, /NWS_ABOUT_YOUTUBE_EMBED/);
-  assert.match(hero, /youtube\.com\/embed\/\$\{NWS_ABOUT_YOUTUBE_ID\}/);
-  assert.match(hero, /Serving Fort Bend/);
-  assert.match(hero, /Custom \+ remodel/);
-  assert.match(hero, /data-about-hero-stats/);
-  assert.match(hero, /site\.phone\.office/);
+  assert.match(hero, /youtube\.com\/embed/);
+  assert.match(hero, /NWS_ABOUT_YOUTUBE_WATCH|data-about-video-watch/);
+  assert.match(hero, /data-about-video-play/);
+  assert.doesNotMatch(hero, /data-about-hero-stats/);
+  assert.doesNotMatch(hero, /Serving Fort Bend/);
   assert.doesNotMatch(index, /import\s+BrandSlider|<BrandSlider/);
   assert.doesNotMatch(hero, /images\.shadcnspace\.com.*hero-13-video/);
   assert.doesNotMatch(hero, /creative Design production studio/i);

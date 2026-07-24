@@ -3,33 +3,50 @@
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { site } from "@/data/site";
-import { ArrowRight, Play, X } from "lucide-react";
-import { useState } from "react";
+import { ArrowRight, ArrowUpRight, Play, X } from "lucide-react";
+import { useCallback, useMemo, useState } from "react";
 
 /**
  * Official NWS YouTube channel (linked from nws-homes.com footer).
- * Latest project videos represent who they are in the field; no stock Space demo video.
  * Source: https://www.youtube.com/channel/UCeJ8l_IhyNplw76bt0yk4NA
  * Primary: Second Bath Makeover - https://www.youtube.com/watch?v=nSJ_8lzRTjM
  */
 export const NWS_ABOUT_YOUTUBE_ID = "nSJ_8lzRTjM";
-export const NWS_ABOUT_YOUTUBE_EMBED = `https://www.youtube.com/embed/${NWS_ABOUT_YOUTUBE_ID}?autoplay=1&rel=0`;
 export const NWS_ABOUT_YOUTUBE_WATCH = `https://www.youtube.com/watch?v=${NWS_ABOUT_YOUTUBE_ID}`;
 
-const stats = [
-  { label: "Serving Fort Bend", value: "Since 2007" },
-  { label: "Projects", value: "Custom + remodel" },
-  { label: "Office", value: site.phone.office },
-];
+function buildEmbedSrc(origin: string) {
+  const params = new URLSearchParams({
+    autoplay: "1",
+    rel: "0",
+    modestbranding: "1",
+    playsinline: "1",
+    enablejsapi: "1",
+  });
+  if (origin) params.set("origin", origin);
+  return `https://www.youtube.com/embed/${NWS_ABOUT_YOUTUBE_ID}?${params.toString()}`;
+}
 
 const HeroSection = () => {
   const [isPlaying, setIsPlaying] = useState(false);
+  const [embedFailed, setEmbedFailed] = useState(false);
 
-  const handlePlay = () => setIsPlaying(true);
-  const handleClose = () => setIsPlaying(false);
+  const origin =
+    typeof window !== "undefined" ? window.location.origin : "";
+
+  const embedSrc = useMemo(() => buildEmbedSrc(origin), [origin]);
+
+  const handlePlay = useCallback(() => {
+    setEmbedFailed(false);
+    setIsPlaying(true);
+  }, []);
+
+  const handleClose = useCallback(() => {
+    setIsPlaying(false);
+    setEmbedFailed(false);
+  }, []);
 
   return (
-    <section className="bg-background">
+    <section className="bg-background" data-about-hero-13>
       <div className="relative">
         <div className="relative max-w-7xl mx-auto xl:px-16 lg:px-8 px-4 w-full h-full z-20">
           <div className="flex lg:flex-row flex-col justify-between lg:items-end relative z-1 gap-6 py-10 md:py-16 pt-28 md:pt-32">
@@ -70,54 +87,103 @@ const HeroSection = () => {
       </div>
 
       <div className="border-t border-border">
-        <div className="relative max-w-7xl mx-auto overflow-hidden lg:aspect-video md:aspect-video aspect-video bg-black">
-          {/* Banner Image - NWS project photo */}
+        <div
+          className="relative max-w-7xl mx-auto overflow-hidden aspect-video bg-black"
+          data-about-video
+        >
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
             src="/images/hero-home-remodeled-richmond-tx.webp"
             alt="NWS custom home and remodeling in Richmond, TX"
             width={1280}
             height={720}
-            className={`object-cover transition-opacity duration-500 ease-in-out w-full h-full ${
-              isPlaying ? "opacity-0" : "opacity-100"
+            className={`absolute inset-0 z-[1] object-cover w-full h-full transition-opacity duration-300 ${
+              isPlaying && !embedFailed
+                ? "opacity-0 pointer-events-none"
+                : "opacity-100 pointer-events-none"
             }`}
           />
 
-          {/* NWS YouTube embed (official channel) */}
-          {isPlaying && (
+          {isPlaying && !embedFailed ? (
             <iframe
+              key={embedSrc}
               title="NWS Custom Homes and Remodeling - project video"
-              src={NWS_ABOUT_YOUTUBE_EMBED}
+              src={embedSrc}
               allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
               allowFullScreen
-              className="absolute inset-0 w-full h-full border-0"
+              referrerPolicy="strict-origin-when-cross-origin"
+              className="absolute inset-0 z-[2] w-full h-full border-0"
+              data-nws-youtube-embed={NWS_ABOUT_YOUTUBE_ID}
+              onError={() => setEmbedFailed(true)}
             />
-          )}
+          ) : null}
 
-          {!isPlaying && (
-            <Button
-              onClick={handlePlay}
-              aria-label="Play NWS project video"
-              className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 lg:h-22 lg:w-22 h-15 w-15 rounded-full cursor-pointer bg-primary/90 hover:bg-primary transition hover:scale-105 !text-white"
-            >
-              <Play className="lg:size-8 size-5 text-white" fill="white" />
-            </Button>
-          )}
+          {/* If YouTube blocks embed, show poster + watch CTA (still real NWS video) */}
+          {isPlaying && embedFailed ? (
+            <div className="absolute inset-0 z-[3] flex flex-col items-center justify-center gap-4 bg-black/70 px-6 text-center">
+              <p className="text-white text-base sm:text-lg max-w-md !m-0">
+                Watch this NWS project video on YouTube
+              </p>
+              <Button
+                className="rounded-[4px] h-11 !text-white gap-2"
+                render={
+                  <a
+                    href={NWS_ABOUT_YOUTUBE_WATCH}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  />
+                }
+              >
+                Open Second Bath Makeover
+                <ArrowUpRight className="size-4" />
+              </Button>
+              <button
+                type="button"
+                onClick={handleClose}
+                className="text-white/80 text-sm underline bg-transparent border-0 cursor-pointer"
+              >
+                Back to poster
+              </button>
+            </div>
+          ) : null}
 
-          {isPlaying && (
-            <Button
+          {!isPlaying ? (
+            <div className="absolute left-1/2 top-1/2 z-[3] -translate-x-1/2 -translate-y-1/2 flex flex-col items-center gap-3">
+              <button
+                type="button"
+                onClick={handlePlay}
+                aria-label="Play NWS project video"
+                data-about-video-play
+                className="flex h-16 w-16 lg:h-22 lg:w-22 items-center justify-center rounded-full bg-primary hover:bg-primary/90 text-white shadow-lg transition hover:scale-105 cursor-pointer border-0"
+              >
+                <Play className="lg:size-8 size-5 text-white" fill="white" />
+              </button>
+              <a
+                href={NWS_ABOUT_YOUTUBE_WATCH}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-white/90 text-xs sm:text-sm font-medium underline-offset-2 hover:underline drop-shadow"
+                data-about-video-watch
+              >
+                or open on YouTube
+              </a>
+            </div>
+          ) : (
+            <button
+              type="button"
               onClick={handleClose}
               aria-label="Close video"
-              className="absolute right-6 top-6 z-10 h-10 w-10 rounded-full bg-black/60 hover:bg-black/80 cursor-pointer !text-white"
+              data-about-video-close
+              className="absolute right-4 top-4 z-[4] flex h-10 w-10 items-center justify-center rounded-full bg-black/70 hover:bg-black/90 text-white cursor-pointer border-0"
             >
               <X className="size-5 text-white" />
-            </Button>
+            </button>
           )}
 
           <div
-            className={`absolute bottom-6 left-6 right-6 md:bottom-10 md:left-10 lg:max-w-xl text-white md:block transition-all duration-300 ${
+            className={`absolute bottom-6 left-6 right-6 z-[3] md:bottom-10 md:left-10 lg:max-w-xl text-white transition-all duration-300 pointer-events-none ${
               isPlaying
-                ? "opacity-0 translate-y-4 pointer-events-none"
+                ? "opacity-0 translate-y-4"
                 : "opacity-100 translate-y-0"
             }`}
           >
@@ -126,23 +192,6 @@ const HeroSection = () => {
               Fort Bend communities since 2007.
             </p>
           </div>
-        </div>
-      </div>
-
-      {/* Replaces hero-13 logo marquee (BrandSlider): Fort Bend / Projects / Office */}
-      <div
-        className="border-y border-border bg-[#12181b]"
-        data-about-hero-stats
-      >
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 grid grid-cols-1 sm:grid-cols-3 gap-6">
-          {stats.map((s) => (
-            <div key={s.label} className="text-center sm:text-left">
-              <p className="text-xs uppercase tracking-wider text-white/50 !m-0">
-                {s.label}
-              </p>
-              <p className="text-xl font-bold text-white !m-0 mt-1">{s.value}</p>
-            </div>
-          ))}
         </div>
       </div>
     </section>
