@@ -34,11 +34,11 @@ test("About hero: NWS YouTube play path with API error → watch fallback; no st
 });
 
 test("Dark-surface outline CTAs force transparent bg + white label", () => {
+  // LocationPage now uses light hero-04 (no dark outline strip there).
   const files = [
     "src/components/shadcn-space/blocks/hero-12/hero.tsx",
     "src/components/shadcn-space/blocks/hero-22/hero.tsx",
     "src/components/GalleryPage.tsx",
-    "src/components/LocationPage.tsx",
     "src/app/services/[slug]/page.tsx",
   ];
   for (const f of files) {
@@ -146,15 +146,13 @@ test("Gallery family: hero-22 + scratch masonry + contrast-safe secondary band",
   assert.match(masonry, /columns-1/);
 });
 
-test("Locations header band + Areas map hero use theme washes and light text", () => {
+test("Locations + Areas use themed hero-04 and keep form tails", () => {
   const loc = read("src", "components", "LocationPage.tsx");
   const areas = read("src", "app", "areas-we-serve", "page.tsx");
-  assert.match(loc, /data-location-header-band/);
-  assert.match(loc, /text-white/);
-  assert.match(loc, /var\(--primary\)/);
-  assert.match(areas, /data-areas-map-hero/);
-  assert.match(areas, /text-white/);
-  assert.match(areas, /var\(--primary\)/);
+  assert.match(loc, /hero-04|Hero04/);
+  assert.match(loc, /data-location-longform|lg:sticky/);
+  assert.match(areas, /hero-04|Hero04/);
+  assert.match(areas, /data-areas-city-chips|data-areas-communities|AreasGrid/);
   assert.match(areas, /LogoCloud03|logo-cloud-03/);
   assert.match(areas, /AreasGrid/);
 });

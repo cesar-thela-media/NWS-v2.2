@@ -1,13 +1,12 @@
 import Image from "next/image";
 import Link from "next/link";
-import { Button } from "@/components/ui/button";
 import { ContactForm } from "@/components/ContactForm";
+import Hero04 from "@/components/shadcn-space/blocks/hero-04";
 import { site } from "@/data/site";
 import type { Location } from "@/data/locations";
 
 /**
- * Location family: photo header band + sticky rail longform + map/form tail.
- * Decorative orange wash + grain on header; NWS work photo for rail.
+ * Location family: Hero 04 (Glyph) + sticky rail longform + map/form tail.
  */
 export function LocationPage({ location }: { location: Location }) {
   const ctaHref =
@@ -22,78 +21,43 @@ export function LocationPage({ location }: { location: Location }) {
     location.heroImage ||
     "/images/hero-custom-home-remodeling-paralax-image.jpg";
 
+  const shortName = location.name.replace(/,?\s*TX$/i, "").trim();
+
   return (
     <>
-      <section
-        className="relative overflow-hidden border-b border-border text-white"
-        data-location-header-band
-      >
-        <div
-          className="absolute inset-0 bg-cover bg-center"
-          style={{ backgroundImage: `url(${heroSrc})` }}
-          aria-hidden
-        />
-        <div
-          className="absolute inset-0 bg-gradient-to-r from-black/90 via-black/75 to-black/45"
-          aria-hidden
-        />
-        <div
-          className="absolute inset-0 bg-[color-mix(in_oklab,var(--primary)_22%,transparent)]"
-          aria-hidden
-        />
-        <div
-          className="absolute inset-0 opacity-[0.1] mix-blend-overlay pointer-events-none"
-          style={{
-            backgroundImage:
-              "url(\"data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.5'/%3E%3C/svg%3E\")",
-          }}
-          aria-hidden
-        />
-        <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-14 sm:py-20 pt-28">
-          <nav className="text-sm text-white/70 mb-4">
-            <Link href="/" className="hover:text-primary text-white/80">
+      <Hero04
+        eyebrow="Areas we serve"
+        titleLine1={shortName}
+        titleLine2="Custom homes & remodels"
+        description={
+          location.body?.[0] ||
+          `Local craftsmanship for ${shortName} and nearby Fort Bend communities since 2007.`
+        }
+        imageSrc={heroSrc}
+        imageAlt={`Remodeling services in ${location.name}`}
+        primaryCtaLabel={location.ctaLabel || "Get in touch"}
+        primaryCtaHref={ctaHref}
+        secondaryLabel="View services"
+        secondaryHref="/services/"
+        breadcrumb={
+          <nav className="text-sm text-muted-foreground mb-1">
+            <Link href="/" className="hover:text-primary">
               Home
             </Link>
-            <span className="mx-2 text-white/40">/</span>
-            <Link
-              href="/areas-we-serve/"
-              className="hover:text-primary text-white/80"
-            >
+            <span className="mx-2 text-border">/</span>
+            <Link href="/areas-we-serve/" className="hover:text-primary">
               Areas
             </Link>
-            <span className="mx-2 text-white/40">/</span>
-            <span className="text-white">{location.name}</span>
+            <span className="mx-2 text-border">/</span>
+            <span className="text-foreground">{location.name}</span>
           </nav>
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-end">
-            <div className="lg:col-span-7">
-              <p className="text-sm font-semibold text-primary !m-0 mb-2">
-                Areas we serve
-              </p>
-              <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight text-white !m-0">
-                {location.name}
-              </h1>
-            </div>
-            <div className="lg:col-span-5 flex flex-wrap lg:justify-end gap-3">
-              <Button
-                className="rounded-[4px] h-11 !text-white"
-                render={<a href={ctaHref} />}
-              >
-                {location.ctaLabel || "Get in touch"}
-              </Button>
-              <Button
-                variant="outline"
-                data-dark-outline-cta
-                className="rounded-[4px] h-11 !border-white/70 !bg-transparent !text-white hover:!bg-white/15 hover:!text-white shadow-none"
-                render={<Link href="/services/" data-dark-outline-cta="" />}
-              >
-                Services
-              </Button>
-            </div>
-          </div>
-        </div>
-      </section>
+        }
+      />
 
-      <section className="py-12 md:py-20 bg-background">
+      <section
+        className="py-12 md:py-20 bg-background"
+        data-location-longform
+      >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-12">
           <div className="lg:col-span-5 order-1">
             <div className="lg:sticky lg:top-28 rounded-2xl overflow-hidden border border-border shadow-[var(--shadow-card)]">

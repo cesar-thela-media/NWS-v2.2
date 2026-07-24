@@ -167,7 +167,10 @@ test("non-home page families use distinct layout markers", () => {
       gallery.includes("break-inside-avoid"),
   );
   assert.ok(
-    location.includes("lg:sticky") || location.includes("Areas we serve"),
+    location.includes("hero-04") ||
+      location.includes("Hero04") ||
+      location.includes("lg:sticky") ||
+      location.includes("Areas we serve"),
   );
   assert.ok(
     (services.includes("hero-12") &&
@@ -175,7 +178,13 @@ test("non-home page families use distinct layout markers", () => {
       (services.includes("space-y-6") && services.includes("md:col-span-5")),
   );
   assert.ok(serviceDetail.includes("lg:grid-cols-2"));
-  assert.ok(areas.includes("mapFull") || areas.includes("Areas we serve"));
+  assert.ok(
+    areas.includes("hero-04") ||
+      areas.includes("Hero04") ||
+      areas.includes("mapFull") ||
+      areas.includes("Areas we serve") ||
+      areas.includes("data-areas"),
+  );
 
   const oldTemplateCount = [about, gallery, location, services, areas].filter(
     (s) => /<PageHero[\s\S]*title=/.test(s),
