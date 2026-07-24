@@ -31,8 +31,8 @@ test("About hero embeds NWS YouTube id; stats strip removed; no BrandSlider", ()
   const hero = read("src/components/shadcn-space/blocks/hero-13/hero.tsx");
   const index = read("src/components/shadcn-space/blocks/hero-13/index.tsx");
   assert.match(hero, /nSJ_8lzRTjM/);
-  assert.match(hero, /youtube\.com\/embed/);
-  assert.match(hero, /NWS_ABOUT_YOUTUBE_WATCH|data-about-video-watch/);
+  assert.match(hero, /iframe_api|YT\.Player|onError/);
+  assert.match(hero, /NWS_ABOUT_YOUTUBE_WATCH|data-about-video-watch|data-about-video-fallback/);
   assert.match(hero, /data-about-video-play/);
   assert.doesNotMatch(hero, /data-about-hero-stats/);
   assert.doesNotMatch(hero, /Serving Fort Bend/);

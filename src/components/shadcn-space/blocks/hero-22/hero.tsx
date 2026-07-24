@@ -188,8 +188,9 @@ export default function Hero22({
             </Button>
             <Button
               variant="outline"
-              className="rounded-[4px] h-11 px-6 border-white/50 bg-transparent !text-white hover:!bg-white/15 hover:!text-white"
-              render={<a href={`tel:${site.phone.officeTel}`} />}
+              data-dark-outline-cta
+              className="rounded-[4px] h-11 px-6 !border-white/70 !bg-transparent !text-white hover:!bg-white/15 hover:!text-white shadow-none"
+              render={<a href={`tel:${site.phone.officeTel}`} data-dark-outline-cta="" />}
             >
               Call us
             </Button>

@@ -103,8 +103,9 @@ const HeroSection = () => {
               </Button>
               <Button
                 variant="outline"
-                className="px-6 py-3.5 h-12 rounded-[4px] w-fit border-white/50 bg-transparent !text-white hover:!bg-white/15 hover:!text-white"
-                render={<Link href="/contact/" />}
+                data-dark-outline-cta
+                className="px-6 py-3.5 h-12 rounded-[4px] w-fit !border-white/70 !bg-transparent !text-white hover:!bg-white/15 hover:!text-white shadow-none"
+                render={<Link href="/contact/" data-dark-outline-cta="" />}
               >
                 Contact our experts
               </Button>

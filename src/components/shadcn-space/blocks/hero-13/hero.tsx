@@ -4,46 +4,226 @@ import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { site } from "@/data/site";
 import { ArrowRight, ArrowUpRight, Play, X } from "lucide-react";
-import { useCallback, useMemo, useState } from "react";
+import { useCallback, useEffect, useId, useRef, useState } from "react";
 
 /**
  * Official NWS YouTube channel (linked from nws-homes.com footer).
  * Source: https://www.youtube.com/channel/UCeJ8l_IhyNplw76bt0yk4NA
  * Primary: Second Bath Makeover - https://www.youtube.com/watch?v=nSJ_8lzRTjM
+ *
+ * Note: NWS may disable external embeds at times. We try in-page embed via
+ * YouTube IFrame API; onError or timeout falls back to an explicit watch CTA
+ * so users never stick on the YouTube "An error occurred" surface alone.
  */
 export const NWS_ABOUT_YOUTUBE_ID = "nSJ_8lzRTjM";
 export const NWS_ABOUT_YOUTUBE_WATCH = `https://www.youtube.com/watch?v=${NWS_ABOUT_YOUTUBE_ID}`;
 
-function buildEmbedSrc(origin: string) {
-  const params = new URLSearchParams({
-    autoplay: "1",
-    rel: "0",
-    modestbranding: "1",
-    playsinline: "1",
-    enablejsapi: "1",
+type YTPlayer = {
+  destroy: () => void;
+  playVideo?: () => void;
+};
+
+type YTNamespace = {
+  Player: new (
+    el: HTMLElement | string,
+    opts: {
+      videoId: string;
+      width?: string | number;
+      height?: string | number;
+      playerVars?: Record<string, string | number>;
+      events?: {
+        onReady?: (e: { target: YTPlayer }) => void;
+        onError?: (e: { data: number }) => void;
+        onStateChange?: (e: { data: number }) => void;
+      };
+    },
+  ) => YTPlayer;
+  PlayerState?: { PLAYING: number; ENDED: number };
+};
+
+declare global {
+  interface Window {
+    YT?: YTNamespace;
+    onYouTubeIframeAPIReady?: () => void;
+  }
+}
+
+let ytApiPromise: Promise<YTNamespace> | null = null;
+
+function loadYouTubeApi(): Promise<YTNamespace> {
+  if (typeof window === "undefined") {
+    return Promise.reject(new Error("no window"));
+  }
+  if (window.YT?.Player) {
+    return Promise.resolve(window.YT);
+  }
+  if (ytApiPromise) return ytApiPromise;
+
+  ytApiPromise = new Promise((resolve, reject) => {
+    const prior = window.onYouTubeIframeAPIReady;
+    window.onYouTubeIframeAPIReady = () => {
+      prior?.();
+      if (window.YT?.Player) resolve(window.YT);
+      else reject(new Error("YT API missing Player"));
+    };
+
+    if (!document.querySelector('script[src*="youtube.com/iframe_api"]')) {
+      const tag = document.createElement("script");
+      tag.src = "https://www.youtube.com/iframe_api";
+      tag.async = true;
+      tag.onerror = () => reject(new Error("YT API script failed"));
+      document.head.appendChild(tag);
+    }
+
+    // If API already mid-load
+    const start = Date.now();
+    const poll = window.setInterval(() => {
+      if (window.YT?.Player) {
+        window.clearInterval(poll);
+        resolve(window.YT);
+      } else if (Date.now() - start > 8000) {
+        window.clearInterval(poll);
+        reject(new Error("YT API timeout"));
+      }
+    }, 50);
   });
-  if (origin) params.set("origin", origin);
-  return `https://www.youtube.com/embed/${NWS_ABOUT_YOUTUBE_ID}?${params.toString()}`;
+
+  return ytApiPromise;
 }
 
 const HeroSection = () => {
+  const reactId = useId().replace(/:/g, "");
+  const playerHostId = `nws-about-yt-${reactId}`;
+  const playerRef = useRef<YTPlayer | null>(null);
+  const failTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
   const [isPlaying, setIsPlaying] = useState(false);
-  const [embedFailed, setEmbedFailed] = useState(false);
+  /** true = show watch fallback (no stuck YouTube error surface) */
+  const [useWatchFallback, setUseWatchFallback] = useState(false);
+  const [embedReady, setEmbedReady] = useState(false);
 
-  const origin =
-    typeof window !== "undefined" ? window.location.origin : "";
+  const clearFailTimer = useCallback(() => {
+    if (failTimerRef.current) {
+      clearTimeout(failTimerRef.current);
+      failTimerRef.current = null;
+    }
+  }, []);
 
-  const embedSrc = useMemo(() => buildEmbedSrc(origin), [origin]);
+  const destroyPlayer = useCallback(() => {
+    clearFailTimer();
+    try {
+      playerRef.current?.destroy();
+    } catch {
+      /* ignore */
+    }
+    playerRef.current = null;
+  }, [clearFailTimer]);
+
+  const activateWatchFallback = useCallback(() => {
+    clearFailTimer();
+    destroyPlayer();
+    setEmbedReady(false);
+    setUseWatchFallback(true);
+    setIsPlaying(true);
+  }, [clearFailTimer, destroyPlayer]);
+
+  const handleClose = useCallback(() => {
+    destroyPlayer();
+    setIsPlaying(false);
+    setUseWatchFallback(false);
+    setEmbedReady(false);
+  }, [destroyPlayer]);
 
   const handlePlay = useCallback(() => {
-    setEmbedFailed(false);
+    setUseWatchFallback(false);
+    setEmbedReady(false);
     setIsPlaying(true);
   }, []);
 
-  const handleClose = useCallback(() => {
-    setIsPlaying(false);
-    setEmbedFailed(false);
-  }, []);
+  // Mount YT player when playing and not on fallback
+  useEffect(() => {
+    if (!isPlaying || useWatchFallback) return;
+
+    let cancelled = false;
+
+    const run = async () => {
+      // Host node must exist after React paint
+      await new Promise((r) => requestAnimationFrame(() => r(null)));
+      if (cancelled) return;
+
+      const host = document.getElementById(playerHostId);
+      if (!host) {
+        activateWatchFallback();
+        return;
+      }
+
+      try {
+        const YT = await loadYouTubeApi();
+        if (cancelled) return;
+
+        destroyPlayer();
+
+        // Safety: if player errors or never becomes ready/playing, fall back
+        clearFailTimer();
+        failTimerRef.current = setTimeout(() => {
+          if (!cancelled) activateWatchFallback();
+        }, 3500);
+
+        playerRef.current = new YT.Player(playerHostId, {
+          videoId: NWS_ABOUT_YOUTUBE_ID,
+          width: "100%",
+          height: "100%",
+          playerVars: {
+            autoplay: 1,
+            rel: 0,
+            modestbranding: 1,
+            playsinline: 1,
+            origin:
+              typeof window !== "undefined" ? window.location.origin : "",
+          },
+          events: {
+            onReady: (e) => {
+              if (cancelled) return;
+              setEmbedReady(true);
+              try {
+                e.target.playVideo?.();
+              } catch {
+                /* autoplay may still require gesture; click already happened */
+              }
+              // Keep fail timer; cleared on PLAYING or extended slightly
+            },
+            onError: () => {
+              if (!cancelled) activateWatchFallback();
+            },
+            onStateChange: (e) => {
+              // YT.PlayerState.PLAYING === 1
+              if (e.data === 1) {
+                clearFailTimer();
+                setEmbedReady(true);
+              }
+              // ENDED === 0 - fine, keep iframe
+            },
+          },
+        });
+      } catch {
+        if (!cancelled) activateWatchFallback();
+      }
+    };
+
+    void run();
+
+    return () => {
+      cancelled = true;
+      destroyPlayer();
+    };
+  }, [
+    isPlaying,
+    useWatchFallback,
+    playerHostId,
+    activateWatchFallback,
+    destroyPlayer,
+    clearFailTimer,
+  ]);
 
   return (
     <section className="bg-background" data-about-hero-13>
@@ -90,6 +270,13 @@ const HeroSection = () => {
         <div
           className="relative max-w-7xl mx-auto overflow-hidden aspect-video bg-black"
           data-about-video
+          data-about-video-mode={
+            !isPlaying
+              ? "poster"
+              : useWatchFallback
+                ? "watch-fallback"
+                : "embed"
+          }
         >
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
@@ -98,43 +285,46 @@ const HeroSection = () => {
             width={1280}
             height={720}
             className={`absolute inset-0 z-[1] object-cover w-full h-full transition-opacity duration-300 ${
-              isPlaying && !embedFailed
+              isPlaying && !useWatchFallback && embedReady
                 ? "opacity-0 pointer-events-none"
-                : "opacity-100 pointer-events-none"
+                : "opacity-100"
             }`}
           />
 
-          {isPlaying && !embedFailed ? (
-            <iframe
-              key={embedSrc}
-              title="NWS Custom Homes and Remodeling - project video"
-              src={embedSrc}
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-              allowFullScreen
-              referrerPolicy="strict-origin-when-cross-origin"
-              className="absolute inset-0 z-[2] w-full h-full border-0"
-              data-nws-youtube-embed={NWS_ABOUT_YOUTUBE_ID}
-              onError={() => setEmbedFailed(true)}
+          {/* YT API mounts iframe inside this host when playing embed mode */}
+          {isPlaying && !useWatchFallback ? (
+            <div
+              id={playerHostId}
+              className="absolute inset-0 z-[2] w-full h-full [&_iframe]:absolute [&_iframe]:inset-0 [&_iframe]:h-full [&_iframe]:w-full"
+              data-nws-youtube-host={NWS_ABOUT_YOUTUBE_ID}
             />
           ) : null}
 
-          {/* If YouTube blocks embed, show poster + watch CTA (still real NWS video) */}
-          {isPlaying && embedFailed ? (
-            <div className="absolute inset-0 z-[3] flex flex-col items-center justify-center gap-4 bg-black/70 px-6 text-center">
-              <p className="text-white text-base sm:text-lg max-w-md !m-0">
-                Watch this NWS project video on YouTube
+          {/* Watch fallback - always a working path to the real NWS video */}
+          {isPlaying && useWatchFallback ? (
+            <div
+              className="absolute inset-0 z-[3] flex flex-col items-center justify-center gap-4 bg-black/75 px-6 text-center"
+              data-about-video-fallback
+            >
+              <p className="text-white text-base sm:text-lg max-w-md !m-0 font-medium">
+                Watch the NWS project video on YouTube
+              </p>
+              <p className="text-white/75 text-sm max-w-sm !m-0">
+                Second Bath Makeover - official NWS Custom Homes and Remodeling
+                channel.
               </p>
               <Button
-                className="rounded-[4px] h-11 !text-white gap-2"
+                className="rounded-[4px] h-12 px-6 !text-white gap-2 text-base"
                 render={
                   <a
                     href={NWS_ABOUT_YOUTUBE_WATCH}
                     target="_blank"
                     rel="noopener noreferrer"
+                    data-about-video-watch-primary
                   />
                 }
               >
-                Open Second Bath Makeover
+                Play on YouTube
                 <ArrowUpRight className="size-4" />
               </Button>
               <button
@@ -174,7 +364,7 @@ const HeroSection = () => {
               onClick={handleClose}
               aria-label="Close video"
               data-about-video-close
-              className="absolute right-4 top-4 z-[4] flex h-10 w-10 items-center justify-center rounded-full bg-black/70 hover:bg-black/90 text-white cursor-pointer border-0"
+              className="absolute right-4 top-4 z-[5] flex h-10 w-10 items-center justify-center rounded-full bg-black/70 hover:bg-black/90 text-white cursor-pointer border-0"
             >
               <X className="size-5 text-white" />
             </button>

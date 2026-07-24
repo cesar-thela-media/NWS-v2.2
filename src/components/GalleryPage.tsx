@@ -61,8 +61,9 @@ export function GalleryPage({ gallery }: { gallery: Gallery }) {
             </Button>
             <Button
               variant="outline"
-              className="rounded-[4px] h-11 border-white/50 bg-transparent !text-white hover:!bg-white/15 hover:!text-white"
-              render={<Link href="/contact/" />}
+              data-dark-outline-cta
+              className="rounded-[4px] h-11 !border-white/70 !bg-transparent !text-white hover:!bg-white/15 hover:!text-white shadow-none"
+              render={<Link href="/contact/" data-dark-outline-cta="" />}
             >
               Book a consult
             </Button>

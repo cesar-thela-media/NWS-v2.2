@@ -82,8 +82,9 @@ export function LocationPage({ location }: { location: Location }) {
               </Button>
               <Button
                 variant="outline"
-                className="rounded-[4px] h-11 !border-white/45 !text-white hover:!bg-white/10"
-                render={<Link href="/services/" />}
+                data-dark-outline-cta
+                className="rounded-[4px] h-11 !border-white/70 !bg-transparent !text-white hover:!bg-white/15 hover:!text-white shadow-none"
+                render={<Link href="/services/" data-dark-outline-cta="" />}
               >
                 Services
               </Button>

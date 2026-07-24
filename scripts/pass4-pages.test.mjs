@@ -13,7 +13,7 @@ const read = (...parts) =>
   fs.readFileSync(path.join(root, ...parts), "utf8");
 const exists = (...parts) => fs.existsSync(path.join(root, ...parts));
 
-test("About hero: NWS YouTube embed + native play control; no Fort Bend stats strip", () => {
+test("About hero: NWS YouTube play path with API error → watch fallback; no stats strip", () => {
   const hero = read(
     "src",
     "components",
@@ -23,13 +23,42 @@ test("About hero: NWS YouTube embed + native play control; no Fort Bend stats st
     "hero.tsx",
   );
   assert.match(hero, /nSJ_8lzRTjM/);
-  assert.match(hero, /youtube\.com\/embed/);
+  assert.match(hero, /iframe_api|YT\.Player|loadYouTubeApi/);
+  assert.match(hero, /onError/);
   assert.match(hero, /data-about-video-play|Play NWS project video/);
-  assert.match(hero, /iframe/);
-  assert.match(hero, /data-about-video-watch|NWS_ABOUT_YOUTUBE_WATCH/);
+  assert.match(hero, /data-about-video-fallback|useWatchFallback|watch-fallback/);
+  assert.match(hero, /data-about-video-watch|NWS_ABOUT_YOUTUBE_WATCH|Play on YouTube/);
   assert.doesNotMatch(hero, /data-about-hero-stats/);
   assert.doesNotMatch(hero, /Serving Fort Bend/);
   assert.doesNotMatch(hero, /label:\s*"Projects"/);
+});
+
+test("Dark-surface outline CTAs force transparent bg + white label", () => {
+  const files = [
+    "src/components/shadcn-space/blocks/hero-12/hero.tsx",
+    "src/components/shadcn-space/blocks/hero-22/hero.tsx",
+    "src/components/GalleryPage.tsx",
+    "src/components/LocationPage.tsx",
+    "src/app/services/[slug]/page.tsx",
+  ];
+  for (const f of files) {
+    const src = read(...f.split("/"));
+    assert.match(
+      src,
+      /!bg-transparent/,
+      `${f} must force transparent outline bg on dark`,
+    );
+    assert.match(
+      src,
+      /!text-white/,
+      `${f} must force white outline label on dark`,
+    );
+    assert.match(
+      src,
+      /data-dark-outline-cta/,
+      `${f} must mark dark outline CTAs for probes`,
+    );
+  }
 });
 
 test("Our Story is one white card over generated themed background", () => {
